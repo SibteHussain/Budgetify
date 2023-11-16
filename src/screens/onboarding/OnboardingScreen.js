@@ -2,7 +2,8 @@ import {View} from 'native-base';
 import {Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 
-const OnboardingScreen = () => {
+const OnboardingScreen = ({navigation}) => {
+  const {navigate} = navigation;
   return (
     <View style={styles.mainContainer}>
       <View style={styles.imageBackground}>
@@ -10,11 +11,12 @@ const OnboardingScreen = () => {
       </View>
       <View style={styles.headingContainer}>
         <Text style={styles.headingText}>Spend Smarter Save More</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigate('Home')}>
           <View style={styles.buttonContainer}>
-          <Text style={styles.buttonText}>Get Started</Text>
+            <Text style={styles.buttonText}>Get Started</Text>
           </View>
         </TouchableOpacity>
+        <Text style={styles.loginText}>Already have an account? Log In</Text>
       </View>
     </View>
   );
@@ -25,19 +27,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEF8F7',
   },
   mainContainer: {
-    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: '3%',
+    height: '100%',
+    backgroundColor: 'red',
   },
   headingText: {
     color: '#438883',
     fontFamily: 'inter_bold',
+    textAlign: 'center',
+    width: '100%',
+    fontSize: 40,
   },
   headingContainer: {
     backgroundColor: 'white',
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    height: '40%',
   },
   buttonContainer: {
     borderRadius: 40,
@@ -48,6 +54,11 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
+    fontFamily: 'inter_regular',
+  },
+  loginText: {
+    color: '#000',
+    marginTop: '5%',
   },
 });
 
