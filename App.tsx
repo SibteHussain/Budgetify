@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import OnboardingScreen from './src/screens/onboarding/OnboardingScreen';
-import {NativeBaseProvider, View} from 'native-base';
+import {NativeBaseProvider, StatusBar, View} from 'native-base';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import MyStack from './src/navigatiors/StackNavigator';
@@ -9,11 +9,10 @@ import MyStack from './src/navigatiors/StackNavigator';
 function App(): JSX.Element {
   return (
     <NativeBaseProvider>
+      <StatusBar backgroundColor={'#000'} />
       <NavigationContainer>
         <MyStack>
-          <View style={styles.mainContainer}>
-            <OnboardingScreen />
-          </View>
+          <OnboardingScreen />
         </MyStack>
       </NavigationContainer>
     </NativeBaseProvider>
