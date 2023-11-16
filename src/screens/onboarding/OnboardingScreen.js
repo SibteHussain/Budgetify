@@ -16,7 +16,9 @@ const OnboardingScreen = ({navigation}) => {
             <Text style={styles.buttonText}>Get Started</Text>
           </View>
         </TouchableOpacity>
-        <Text style={styles.loginText}>Already have an account? Log In</Text>
+        <TouchableOpacity onPress={() => navigate('Home')}>
+          <Text style={styles.loginText}>Already have an account? Log In</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

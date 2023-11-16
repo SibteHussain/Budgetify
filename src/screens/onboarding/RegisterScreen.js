@@ -21,11 +21,20 @@ const RegisterScreen = () => {
       <View style={styles.subContainer}>
         <Text style={styles.headingText}>Create Account</Text>
         <Text style={styles.text}>Name</Text>
-        <Input value={formik.values.name} />
+        <Input
+          value={formik.values.name}
+          onChangeText={formik.handleChange('name')}
+        />
         <Text style={styles.text}>Email</Text>
-        <Input value={formik.values.email} />
+        <Input
+          value={formik.values.email}
+          onChangeText={formik.handleChange('email')}
+        />
         <Text style={styles.text}>Password</Text>
-        <Input value={formik.values.password} />
+        <Input
+          value={formik.values.password}
+          onChangeText={formik.handleChange('password')}
+        />
       </View>
       <TouchableOpacity>
         <View style={styles.buttonContainer}>
@@ -37,7 +46,7 @@ const RegisterScreen = () => {
 };
 const styles = StyleSheet.create({
   mainContainer: {
-    height: heightPercentageToDP(100),
+    height: '100%',
     alignItems: 'center',
     paddingTop: '4%',
   },
