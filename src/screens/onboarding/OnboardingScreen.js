@@ -11,7 +11,7 @@ const OnboardingScreen = ({navigation}) => {
       </View>
       <View style={styles.headingContainer}>
         <Text style={styles.headingText}>Spend Smarter Save More</Text>
-        <TouchableOpacity onPress={() => navigate('Home')}>
+        <TouchableOpacity onPress={() => navigate('Register')}>
           <View style={styles.buttonContainer}>
             <Text style={styles.buttonText}>Get Started</Text>
           </View>
@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     alignItems: 'center',
     height: '100%',
-    backgroundColor: 'red',
   },
   headingText: {
     color: '#438883',
@@ -43,7 +42,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '40%',
+    // height: '40%',
   },
   buttonContainer: {
     borderRadius: 40,
