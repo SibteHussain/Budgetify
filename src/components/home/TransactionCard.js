@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: widthPercentageToDP(90),
+    marginVertical: '1%',
   },
   nameText: {color: '#000', fontFamily: 'inter_medium', fontSize: 16},
   buttonContainer: {

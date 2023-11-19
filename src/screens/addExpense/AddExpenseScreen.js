@@ -57,7 +57,7 @@ const AddExpenseScreen = () => {
       <AddPayee showModal={showModal} setShowModal={setShowModal} />
       <Text style={styles.text}>ADD EXPENSE</Text>
       <Select
-        selectedValue={formik.values.name}
+        selectedValue={formik.values.name ? formik.values.name : 'N/A'}
         minWidth="200"
         accessibilityLabel="Choose Name"
         placeholder="Choose Name"
@@ -66,9 +66,13 @@ const AddExpenseScreen = () => {
         }}
         mt={1}
         onValueChange={itemValue => formik.setFieldValue('name', itemValue)}>
-        {payees.map(payee => (
-          <Select.Item label={payee.name} value={payee.name} key={payee.id} />
-        ))}
+        {payees !== null ? (
+          payees.map(payee => (
+            <Select.Item label={payee.name} value={payee.name} key={payee.id} />
+          ))
+        ) : (
+          <Select.Item label="N/A" value="N/A" key="N/A" />
+        )}
       </Select>
       <Input
         placeholder="Amount"
