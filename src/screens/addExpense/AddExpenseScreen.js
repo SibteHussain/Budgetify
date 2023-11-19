@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {useFormik} from 'formik';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import {Input, Select} from 'native-base';
+import {FormControl, Input, Modal, Select} from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AddPayee from '../../components/Payee/AddPayee';
 
 const AddExpenseScreen = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [payees, setPayees] = useState([]);
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -36,9 +39,22 @@ const AddExpenseScreen = () => {
       }
     },
   });
-
+  useEffect(() => {
+    getPayee();
+  }, []);
+  const getPayee = async () => {
+    try {
+      const savedUser = await AsyncStorage.getItem('payees');
+      const currentUser = JSON.parse(savedUser);
+      setPayees(currentUser);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(payees);
   return (
     <View style={styles.mainContainer}>
+      <AddPayee showModal={showModal} setShowModal={setShowModal} />
       <Text style={styles.text}>ADD EXPENSE</Text>
       <Select
         selectedValue={formik.values.name}
@@ -50,11 +66,9 @@ const AddExpenseScreen = () => {
         }}
         mt={1}
         onValueChange={itemValue => formik.setFieldValue('name', itemValue)}>
-        <Select.Item label="UX Research" value="ux" />
-        <Select.Item label="Web Development" value="web" />
-        <Select.Item label="Cross Platform Development" value="cross" />
-        <Select.Item label="UI Designing" value="ui" />
-        <Select.Item label="Backend Development" value="backend" />
+        {payees.map(payee => (
+          <Select.Item label={payee.name} value={payee.name} key={payee.id} />
+        ))}
       </Select>
       <Input
         placeholder="Amount"
@@ -69,6 +83,11 @@ const AddExpenseScreen = () => {
         value={formik.values.reason}
         onChangeText={formik.handleChange('reason')}
       />
+      <TouchableOpacity onPress={() => setShowModal(true)}>
+        <View style={styles.buttonContainer}>
+          <Text style={styles.buttonText}>Add Payee</Text>
+        </View>
+      </TouchableOpacity>
       <TouchableOpacity onPress={formik.handleSubmit}>
         <View style={styles.buttonContainer}>
           <Text style={styles.buttonText}>Register</Text>
