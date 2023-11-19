@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {FormControl, Input, Modal, Select} from 'native-base';
 import {useFormik} from 'formik';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const generateRandomId = () => {
@@ -16,7 +16,6 @@ const AddPayee = ({showModal, setShowModal}) => {
       name: '',
       email: '',
       relation: '',
-      date: new Date().toISOString().split('T')[0],
     },
     onSubmit: async values => {
       try {
@@ -44,7 +43,6 @@ const AddPayee = ({showModal, setShowModal}) => {
       }
     },
   });
-
   return (
     <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
       <Modal.Content maxWidth="400px">

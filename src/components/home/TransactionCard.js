@@ -1,16 +1,17 @@
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
-const TransactionCard = () => {
+const TransactionCard = ({name, amount, date}) => {
+  console.log(date);
   return (
     <View style={styles.mainContainer}>
       <View style={styles.nameContainer}>
-        <Text style={styles.nameText}>Sibte</Text>
-        <Text style={styles.dateText}>Today</Text>
+        <Text style={styles.nameText}>{name}</Text>
+        <Text style={styles.dateText}>{date}</Text>
       </View>
       <Text
         style={{color: '#25A969', fontFamily: 'inter_semibold', fontSize: 18}}>
-        $ 5000
+        {amount}
       </Text>
     </View>
   );

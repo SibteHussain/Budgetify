@@ -13,6 +13,7 @@ const AddExpenseScreen = () => {
       name: '',
       amount: '',
       reason: '',
+      date: new Date().toISOString().split('T')[0],
     },
     onSubmit: async values => {
       try {
