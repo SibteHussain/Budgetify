@@ -13,7 +13,23 @@ const AddExpenseScreen = () => {
     },
     onSubmit: async values => {
       try {
-        await AsyncStorage.setItem('expenses', JSON.stringify(values));
+        // Retrieve existing expenses from AsyncStorage
+        const existingExpensesJSON = await AsyncStorage.getItem('expenses');
+        let existingExpenses = [];
+
+        if (existingExpensesJSON) {
+          existingExpenses = JSON.parse(existingExpensesJSON);
+          if (!Array.isArray(existingExpenses)) {
+            existingExpenses = []; // If the stored value is not an array, initialize an empty array
+          }
+        }
+
+        // Add the new expense to the existing expenses array
+        const newExpenses = [...existingExpenses, values];
+
+        // Save the updated expenses array back to AsyncStorage
+        await AsyncStorage.setItem('expenses', JSON.stringify(newExpenses));
+
         console.log('Values added');
       } catch (error) {
         console.log(error);

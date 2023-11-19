@@ -27,7 +27,6 @@ const ShowExpenseScreen = () => {
         {expense.amount ? expense.amount : 'null'}
       </Text>
       <Text style={styles.text}>{expense.reason ? expense.reason : 'N/A'}</Text>
-      <Text style={styles.text}>Hello</Text>
     </View>
   );
 };
