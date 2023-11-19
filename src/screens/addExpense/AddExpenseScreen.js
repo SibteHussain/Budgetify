@@ -41,7 +41,7 @@ const AddExpenseScreen = () => {
   });
   useEffect(() => {
     getPayee();
-  }, []);
+  }, [showModal]);
   const getPayee = async () => {
     try {
       const savedUser = await AsyncStorage.getItem('payees');

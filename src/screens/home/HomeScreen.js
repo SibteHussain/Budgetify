@@ -2,6 +2,7 @@ import {Text, View} from 'native-base';
 import React from 'react';
 import {Image, StyleSheet, TouchableOpacity} from 'react-native';
 import CreditCard from '../../components/home/CreditCard';
+import TransactionCard from '../../components/home/TransactionCard';
 const HomeScreen = ({navigation}) => {
   const {navigate} = navigation;
   return (
@@ -10,6 +11,10 @@ const HomeScreen = ({navigation}) => {
       <Text style={styles.text}>Budgetify</Text>
       <CreditCard />
       <Text>Transaction History</Text>
+      <TransactionCard />
+      <TransactionCard />
+      <TransactionCard />
+      <TransactionCard />
       <TouchableOpacity onPress={() => navigate('AddExpense')}>
         <Text>Add</Text>
       </TouchableOpacity>

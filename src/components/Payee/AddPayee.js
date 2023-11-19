@@ -16,6 +16,7 @@ const AddPayee = ({showModal, setShowModal}) => {
       name: '',
       email: '',
       relation: '',
+      date: new Date().toISOString().split('T')[0],
     },
     onSubmit: async values => {
       try {
