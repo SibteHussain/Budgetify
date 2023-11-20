@@ -3,25 +3,12 @@ import React, {useState, useEffect} from 'react';
 import {FlatList, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import CreditCard from '../../components/home/CreditCard';
 import TransactionCard from '../../components/home/TransactionCard';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useAppStateProvider} from '../../components/providers/AppStateProvider';
+
 const HomeScreen = ({navigation}) => {
   const {navigate} = navigation;
-  const [expense, setExpense] = useState([]);
+  const {expenses, setExpenses} = useAppStateProvider();
 
-  useEffect(() => {
-    getUser();
-  }, []); // Empty dependency array ensures that the effect runs only once when the component mounts.
-
-  const getUser = async () => {
-    try {
-      const savedUser = await AsyncStorage.getItem('expenses');
-      const currentUser = JSON.parse(savedUser);
-      setExpense(currentUser);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  console.log(expense);
   const renderItem = ({item}) => (
     <TransactionCard
       name={item.name}
@@ -36,9 +23,9 @@ const HomeScreen = ({navigation}) => {
       <Text style={styles.text}>Budgetify</Text>
       <CreditCard />
       <Text>Transaction History</Text>
-      {expense !== null ? (
+      {expenses !== null ? (
         <FlatList
-          data={expense.slice(0, 5)}
+          data={expenses}
           renderItem={renderItem}
           // keyExtractor={item => item.id.toString()}
         />
@@ -59,6 +46,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     alignItems: 'center',
   },
-  text: {color: '#000', fontFamily: 'inter_bold', fontSize: 45},
+  text: {color: '#000', fontFamily: 'inter_semibold', fontSize: 25},
 });
 export default HomeScreen;

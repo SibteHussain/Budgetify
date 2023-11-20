@@ -4,8 +4,10 @@ import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {FormControl, Input, Modal, Select} from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddPayee from '../../components/Payee/AddPayee';
+import {useAppStateProvider} from '../../components/providers/AppStateProvider';
 
 const AddExpenseScreen = () => {
+  const {expenses, setExpenses} = useAppStateProvider();
   const [showModal, setShowModal] = useState(false);
   const [payees, setPayees] = useState([]);
   const formik = useFormik({
@@ -30,6 +32,7 @@ const AddExpenseScreen = () => {
 
         // Add the new expense to the existing expenses array
         const newExpenses = [...existingExpenses, values];
+        setExpenses(newExpenses);
 
         // Save the updated expenses array back to AsyncStorage
         await AsyncStorage.setItem('expenses', JSON.stringify(newExpenses));
@@ -52,7 +55,6 @@ const AddExpenseScreen = () => {
       console.log(error);
     }
   };
-  console.log(payees);
   return (
     <View style={styles.mainContainer}>
       <AddPayee showModal={showModal} setShowModal={setShowModal} />

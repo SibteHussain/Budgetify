@@ -5,17 +5,20 @@ import {NativeBaseProvider, StatusBar, View} from 'native-base';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import MyStack from './src/navigatiors/StackNavigator';
+import AppStateProvider from './src/components/providers/AppStateProvider';
 
 function App(): JSX.Element {
   return (
-    <NativeBaseProvider>
-      <StatusBar backgroundColor={'#000'} />
-      <NavigationContainer>
-        <MyStack>
-          <OnboardingScreen />
-        </MyStack>
-      </NavigationContainer>
-    </NativeBaseProvider>
+    <AppStateProvider>
+      <NativeBaseProvider>
+        <StatusBar backgroundColor={'#000'} />
+        <NavigationContainer>
+          <MyStack>
+            <OnboardingScreen />
+          </MyStack>
+        </NavigationContainer>
+      </NativeBaseProvider>
+    </AppStateProvider>
   );
 }
 
