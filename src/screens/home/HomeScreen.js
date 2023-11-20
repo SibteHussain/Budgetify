@@ -8,6 +8,7 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const HomeScreen = ({navigation}) => {
   const {navigate} = navigation;
@@ -24,11 +25,11 @@ const HomeScreen = ({navigation}) => {
   );
   return (
     <View style={styles.mainContainer}>
-      {/* <Image source={require('../../../assets/images/Header_bg.png')} /> */}
-      <Text style={styles.headingText}>Budgetify</Text>
-      <CreditCard />
-      <View style={styles.transactionsContainer}>
-        <Text style={styles.text}>Transaction History</Text>
+      <View style={styles.topContainer}>
+        <CreditCard />
+        <View style={styles.transactionsContainer}>
+          <Text style={styles.text}>Transaction History</Text>
+        </View>
       </View>
       {expenses.length > 0 ? (
         <View style={styles.listContainer}>
@@ -39,13 +40,12 @@ const HomeScreen = ({navigation}) => {
           />
         </View>
       ) : (
-        <Text style={styles.text}>No Previous Expenses Found</Text>
+        <View style={styles.listContainer}>
+          <Text style={styles.text}>No Previous Expenses Found</Text>
+        </View>
       )}
       <TouchableOpacity onPress={() => navigate('AddExpense')}>
-        <Text>Add</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigate('showExpense')}>
-        <Text>Check</Text>
+        <Icon name="pluscircle" size={60} color="#2F7E79" />
       </TouchableOpacity>
     </View>
   );
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   headingText: {color: '#000', fontFamily: 'inter_semibold', fontSize: 25},
   listContainer: {
-    maxHeight: heightPercentageToDP(40),
+    height: heightPercentageToDP(45),
     paddingVertical: '2%',
   },
   transactionsContainer: {
@@ -65,9 +65,14 @@ const styles = StyleSheet.create({
     marginTop: '2%',
   },
   text: {
-    color: '#000',
+    color: '#fff',
     fontFamily: 'inter_semibold',
     fontSize: 18,
+  },
+  topContainer: {
+    backgroundColor: '#429690',
+    width: widthPercentageToDP(100),
+    alignItems: 'center',
   },
 });
 export default HomeScreen;

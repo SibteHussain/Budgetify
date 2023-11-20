@@ -10,10 +10,10 @@ const CreditCard = () => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.balanceContainer}>
-        <Text style={styles.text}>Total Balance</Text>
+        <Text style={styles.text}>SIBTEHUSSAIN</Text>
         <Icon name="up" size={15} color="#fff" style={styles.icon} />
       </View>
-      <Text style={styles.text}>PKR 250,000</Text>
+      <Text style={styles.text}>Expense Tracker</Text>
       <View style={styles.bottomContainer}>
         <View style={styles.expenseContainer}>
           <View style={styles.incomeContainer}>
@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
     paddingHorizontal: 15,
     borderRadius: 15,
-    minWidth: widthPercentageToDP(80),
+    width: widthPercentageToDP(80),
+    marginVertical: '4%',
   },
   text: {color: '#fff', fontFamily: 'inter_regular', fontSize: 15},
   balanceContainer: {

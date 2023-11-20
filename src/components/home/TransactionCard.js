@@ -9,8 +9,9 @@ const TransactionCard = ({name, amount, date, transactionType}) => {
         <Text style={styles.dateText}>{date}</Text>
       </View>
       <Text
+        // eslint-disable-next-line react-native/no-inline-styles
         style={{
-          color: transactionType === 'Debit' ? '#25A969' : 'red',
+          color: transactionType === 'Debit' ? '#25A969' : '#F95B51',
           fontFamily: 'inter_semibold',
           fontSize: 18,
         }}>

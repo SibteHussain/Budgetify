@@ -11,7 +11,7 @@ const MyStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        // headerShown: false,
+        headerShown: false,
         headerStyle: {
           backgroundColor: '#3E7C78',
         },
