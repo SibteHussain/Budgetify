@@ -3,8 +3,10 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {useAppStateProvider} from '../providers/AppStateProvider';
 
 const CreditCard = () => {
+  const {income, expense} = useAppStateProvider();
   return (
     <View style={styles.mainContainer}>
       <View style={styles.balanceContainer}>
@@ -18,14 +20,14 @@ const CreditCard = () => {
             <Icon name="arrowdown" size={15} color="#fff" />
             <Text style={styles.textLight}>Income</Text>
           </View>
-          <Text style={styles.text}>PKR 250,000</Text>
+          <Text style={styles.text}>{income}</Text>
         </View>
         <View style={styles.expenseContainer}>
           <View style={styles.incomeContainer}>
             <Icon name="arrowup" size={15} color="#fff" />
             <Text style={styles.textLight}>Expenses</Text>
           </View>
-          <Text style={styles.text}>PKR 250,000</Text>
+          <Text style={styles.text}>{expense}</Text>
         </View>
       </View>
     </View>
@@ -39,8 +41,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderRadius: 15,
     minWidth: widthPercentageToDP(80),
-    // position: 'absolute',
-    // top: 200,
   },
   text: {color: '#fff', fontFamily: 'inter_regular', fontSize: 15},
   balanceContainer: {

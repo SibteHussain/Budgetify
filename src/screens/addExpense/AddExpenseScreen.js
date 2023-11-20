@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useFormik} from 'formik';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import {FormControl, Input, Modal, Select} from 'native-base';
+import {Input, Select} from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddPayee from '../../components/Payee/AddPayee';
 import {useAppStateProvider} from '../../components/providers/AppStateProvider';
@@ -12,7 +12,15 @@ const generateRandomId = () => {
 };
 
 const AddExpenseScreen = () => {
-  const {expenses, setExpenses, payees} = useAppStateProvider();
+  const {
+    expenses,
+    setExpenses,
+    payees,
+    expense,
+    setExpense,
+    income,
+    setIncome,
+  } = useAppStateProvider();
   console.log('expenses----', expenses);
   const [showModal, setShowModal] = useState(false);
   const formik = useFormik({
@@ -27,32 +35,24 @@ const AddExpenseScreen = () => {
     onSubmit: async values => {
       try {
         // Update income and expense based on transactionType
-        let updatedIncome = expenses.income ? expenses.income : 0;
-        let updatedExpense = expenses.expense ? expenses.expense : 0;
+        let updatedIncome = income;
+        let updatedExpense = expense;
 
         if (values.transactionType === 'Debit') {
           updatedIncome += parseFloat(formik.values.amount);
+          setIncome(updatedIncome);
         } else if (values.transactionType === 'Credit') {
           updatedExpense += parseFloat(formik.values.amount);
+          setExpense(updatedExpense);
         }
 
-        // Update the formik values with the calculated values
-        formik.setFieldValue('income', updatedIncome);
-        formik.setFieldValue('expense', updatedExpense);
+        await AsyncStorage.setItem('income', JSON.stringify(updatedIncome));
+        await AsyncStorage.setItem('expense', JSON.stringify(updatedExpense));
 
         // Retrieve existing expenses from AsyncStorage
-        const existingExpensesJSON = await AsyncStorage.getItem('expenses');
-        let existingExpenses = [];
-
-        if (existingExpensesJSON) {
-          existingExpenses = JSON.parse(existingExpensesJSON);
-          if (!Array.isArray(existingExpenses)) {
-            existingExpenses = []; // If the stored value is not an array, initialize an empty array
-          }
-        }
 
         // Add the new expense to the existing expenses array
-        const newExpenses = [...existingExpenses, values];
+        const newExpenses = [...expenses, values];
         setExpenses(newExpenses);
 
         // Save the updated expenses array back to AsyncStorage

@@ -19,6 +19,7 @@ const HomeScreen = ({navigation}) => {
       key={item.id}
       date={item.date}
       amount={item.amount}
+      transactionType={item.transactionType}
     />
   );
   return (
