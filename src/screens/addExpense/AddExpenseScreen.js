@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useFormik} from 'formik';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Input, Select} from 'native-base';
@@ -64,6 +64,13 @@ const AddExpenseScreen = () => {
       }
     },
   });
+  console.log(payees);
+  useEffect(() => {
+    if (payees.length === 0) {
+      setShowModal(true);
+    }
+  }, [payees, showModal]);
+
   return (
     <View style={styles.mainContainer}>
       <AddPayee showModal={showModal} setShowModal={setShowModal} />
@@ -86,6 +93,7 @@ const AddExpenseScreen = () => {
           <Select.Item label="N/A" value="N/A" key="N/A" />
         )}
       </Select>
+
       <Select
         selectedValue={formik.values.transactionType}
         minWidth={200}
