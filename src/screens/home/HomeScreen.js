@@ -29,12 +29,12 @@ const HomeScreen = ({navigation}) => {
       <View style={styles.transactionsContainer}>
         <Text style={styles.text}>Transaction History</Text>
       </View>
-      {expenses !== null ? (
+      {expenses.length > 0 ? (
         <View style={styles.listContainer}>
           <FlatList
             data={expenses}
             renderItem={renderItem}
-            // keyExtractor={item => item.id.toString()}
+            keyExtractor={item => item.id.toString()}
           />
         </View>
       ) : (

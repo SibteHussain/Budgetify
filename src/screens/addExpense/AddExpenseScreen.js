@@ -6,19 +6,40 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddPayee from '../../components/Payee/AddPayee';
 import {useAppStateProvider} from '../../components/providers/AppStateProvider';
 
+const generateRandomId = () => {
+  // Generate a random alphanumeric id, e.g., using Date.now()
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+};
+
 const AddExpenseScreen = () => {
-  const {expenses, setExpenses} = useAppStateProvider();
+  const {expenses, setExpenses, payees} = useAppStateProvider();
+  console.log('expenses----', expenses);
   const [showModal, setShowModal] = useState(false);
-  const [payees, setPayees] = useState([]);
   const formik = useFormik({
     initialValues: {
+      id: generateRandomId(),
       name: '',
       amount: '',
       reason: '',
       date: new Date().toISOString().split('T')[0],
+      transactionType: '',
     },
     onSubmit: async values => {
       try {
+        // Update income and expense based on transactionType
+        let updatedIncome = expenses.income ? expenses.income : 0;
+        let updatedExpense = expenses.expense ? expenses.expense : 0;
+
+        if (values.transactionType === 'Debit') {
+          updatedIncome += parseFloat(formik.values.amount);
+        } else if (values.transactionType === 'Credit') {
+          updatedExpense += parseFloat(formik.values.amount);
+        }
+
+        // Update the formik values with the calculated values
+        formik.setFieldValue('income', updatedIncome);
+        formik.setFieldValue('expense', updatedExpense);
+
         // Retrieve existing expenses from AsyncStorage
         const existingExpensesJSON = await AsyncStorage.getItem('expenses');
         let existingExpenses = [];
@@ -43,18 +64,6 @@ const AddExpenseScreen = () => {
       }
     },
   });
-  useEffect(() => {
-    getPayee();
-  }, [showModal]);
-  const getPayee = async () => {
-    try {
-      const savedUser = await AsyncStorage.getItem('payees');
-      const currentUser = JSON.parse(savedUser);
-      setPayees(currentUser);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <View style={styles.mainContainer}>
       <AddPayee showModal={showModal} setShowModal={setShowModal} />
@@ -69,13 +78,28 @@ const AddExpenseScreen = () => {
         }}
         mt={1}
         onValueChange={itemValue => formik.setFieldValue('name', itemValue)}>
-        {payees !== null ? (
+        {payees.length > 0 ? (
           payees.map(payee => (
             <Select.Item label={payee.name} value={payee.name} key={payee.id} />
           ))
         ) : (
           <Select.Item label="N/A" value="N/A" key="N/A" />
         )}
+      </Select>
+      <Select
+        selectedValue={formik.values.transactionType}
+        minWidth={200}
+        accessibilityLabel="Choose Transaction Type"
+        placeholder="Choose Transaction Type"
+        _selectedItem={{
+          bg: 'teal.600',
+        }}
+        mt={1}
+        onValueChange={itemValue =>
+          formik.setFieldValue('transactionType', itemValue)
+        }>
+        <Select.Item label="Debit" value="Debit" />
+        <Select.Item label="Credit" value="Credit" />
       </Select>
       <Input
         placeholder="Amount"

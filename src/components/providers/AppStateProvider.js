@@ -14,6 +14,7 @@ export function useAppStateProvider() {
 }
 const AppStateProvider = ({children}) => {
   const [expenses, setExpenses] = useState([]);
+  const [payees, setPayees] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,7 +27,19 @@ const AppStateProvider = ({children}) => {
       }
     };
 
+    const fetchPayees = async () => {
+      try {
+        const savedPayees = await AsyncStorage.getItem('payees'); // Fix the typo here
+        const currentPayees = JSON.parse(savedPayees);
+        setPayees(currentPayees || []); // Set to an empty array if null or undefined
+      } catch (error) {
+        console.error('Error fetching payees data:', error);
+        setPayees([]); // Set to an empty array in case of an error
+      }
+    };
+
     fetchData(); // Call the function immediately when the component mounts
+    fetchPayees();
 
     // Note: If you want to run this effect whenever 'expenses' change, remove the dependency array altogether
   }, []); // Empty dependency array ensures that the effect runs only once when the component mounts.
@@ -34,6 +47,9 @@ const AppStateProvider = ({children}) => {
   const providerValue = {
     expenses,
     setExpenses,
+
+    payees,
+    setPayees,
   };
   return (
     <CreateAppStateProviderContext.Provider value={providerValue}>

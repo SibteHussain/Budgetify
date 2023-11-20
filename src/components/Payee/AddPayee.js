@@ -3,6 +3,7 @@ import {FormControl, Input, Modal, Select} from 'native-base';
 import {useFormik} from 'formik';
 import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useAppStateProvider} from '../../components/providers/AppStateProvider';
 
 const generateRandomId = () => {
   // Generate a random alphanumeric id, e.g., using Date.now()
@@ -10,6 +11,7 @@ const generateRandomId = () => {
 };
 
 const AddPayee = ({showModal, setShowModal}) => {
+  const {setPayees} = useAppStateProvider();
   const formik = useFormik({
     initialValues: {
       id: generateRandomId(), // Add id field with a random id
@@ -32,6 +34,7 @@ const AddPayee = ({showModal, setShowModal}) => {
 
         // Add the new payee to the existing payees array
         const newPayees = [...existingPayees, values];
+        setPayees(newPayees);
 
         // Save the updated payees array back to AsyncStorage
         await AsyncStorage.setItem('payees', JSON.stringify(newPayees));
