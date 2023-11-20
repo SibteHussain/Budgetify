@@ -2,7 +2,6 @@ import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 const TransactionCard = ({name, amount, date}) => {
-  console.log(date);
   return (
     <View style={styles.mainContainer}>
       <View style={styles.nameContainer}>

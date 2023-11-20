@@ -19,7 +19,6 @@ const ShowExpenseScreen = () => {
       console.log(error);
     }
   };
-  console.log('expense=====', expense);
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.text}>{expense.name ? expense.name : 'No name'}</Text>

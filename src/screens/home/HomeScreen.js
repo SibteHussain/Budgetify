@@ -4,10 +4,14 @@ import {FlatList, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import CreditCard from '../../components/home/CreditCard';
 import TransactionCard from '../../components/home/TransactionCard';
 import {useAppStateProvider} from '../../components/providers/AppStateProvider';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 
 const HomeScreen = ({navigation}) => {
   const {navigate} = navigation;
-  const {expenses, setExpenses} = useAppStateProvider();
+  const {expenses} = useAppStateProvider();
 
   const renderItem = ({item}) => (
     <TransactionCard
@@ -20,15 +24,19 @@ const HomeScreen = ({navigation}) => {
   return (
     <View style={styles.mainContainer}>
       {/* <Image source={require('../../../assets/images/Header_bg.png')} /> */}
-      <Text style={styles.text}>Budgetify</Text>
+      <Text style={styles.headingText}>Budgetify</Text>
       <CreditCard />
-      <Text>Transaction History</Text>
+      <View style={styles.transactionsContainer}>
+        <Text style={styles.text}>Transaction History</Text>
+      </View>
       {expenses !== null ? (
-        <FlatList
-          data={expenses}
-          renderItem={renderItem}
-          // keyExtractor={item => item.id.toString()}
-        />
+        <View style={styles.listContainer}>
+          <FlatList
+            data={expenses}
+            renderItem={renderItem}
+            // keyExtractor={item => item.id.toString()}
+          />
+        </View>
       ) : (
         <Text style={styles.text}>No Previous Expenses Found</Text>
       )}
@@ -46,6 +54,19 @@ const styles = StyleSheet.create({
   mainContainer: {
     alignItems: 'center',
   },
-  text: {color: '#000', fontFamily: 'inter_semibold', fontSize: 25},
+  headingText: {color: '#000', fontFamily: 'inter_semibold', fontSize: 25},
+  listContainer: {
+    maxHeight: heightPercentageToDP(40),
+    paddingVertical: '2%',
+  },
+  transactionsContainer: {
+    width: widthPercentageToDP(90),
+    marginTop: '2%',
+  },
+  text: {
+    color: '#000',
+    fontFamily: 'inter_semibold',
+    fontSize: 18,
+  },
 });
 export default HomeScreen;
