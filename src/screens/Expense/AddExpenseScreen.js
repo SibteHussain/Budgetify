@@ -64,7 +64,7 @@ const AddExpenseScreen = () => {
         // Retrieve existing expenses from AsyncStorage
 
         // Add the new expense to the existing expenses array
-        const newExpenses = [...expenses, values];
+        const newExpenses = [values, ...expenses];
         setExpenses(newExpenses);
 
         // Save the updated expenses array back to AsyncStorage

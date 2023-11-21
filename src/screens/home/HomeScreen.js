@@ -11,6 +11,7 @@ import {
 import Icon from 'react-native-vector-icons/AntDesign';
 import MainViewWrapper from '../../components/MainViewWrapper';
 import DatePicker from 'react-native-date-picker';
+import moment from 'moment';
 
 const HomeScreen = ({navigation}) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -38,7 +39,7 @@ const HomeScreen = ({navigation}) => {
         date={selectedDate}
         onConfirm={input => {
           setOpen(false);
-          setSelectedDate(input);
+          setSelectedDate(moment(selectedDate).format('YYYY-MM-DDTHH:mm:ssZ'));
         }}
         onCancel={() => {
           setOpen(false);

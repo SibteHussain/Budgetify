@@ -38,7 +38,7 @@ const TransactionCard = ({
             fontFamily: 'inter_semibold',
             fontSize: 18,
           }}>
-          {amount}
+          {`$ ${amount}`}
         </Text>
       </View>
     </TouchableOpacity>
