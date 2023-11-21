@@ -11,7 +11,6 @@ function App(): JSX.Element {
   return (
     <AppStateProvider>
       <NativeBaseProvider>
-        <StatusBar backgroundColor={'#000'} />
         <NavigationContainer>
           <MyStack>
             <OnboardingScreen />

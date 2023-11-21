@@ -5,6 +5,8 @@ import {Input, Select} from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddPayee from '../../components/Payee/AddPayee';
 import {useAppStateProvider} from '../../components/providers/AppStateProvider';
+import GeneralHeader from '../../components/GeneralHeader';
+import MainViewWrapper from '../../components/MainViewWrapper';
 
 const generateRandomId = () => {
   // Generate a random alphanumeric id, e.g., using Date.now()
@@ -72,9 +74,9 @@ const AddExpenseScreen = () => {
   }, [payees, showModal]);
 
   return (
-    <View style={styles.mainContainer}>
+    <MainViewWrapper statusBgColor={'#3E7C78'}>
+      <GeneralHeader bgColor={'#3E7C78'} title={'Add Expense'} />
       <AddPayee showModal={showModal} setShowModal={setShowModal} />
-      <Text style={styles.text}>ADD EXPENSE</Text>
       <Select
         selectedValue={formik.values.name ? formik.values.name : 'N/A'}
         minWidth="200"
@@ -132,7 +134,7 @@ const AddExpenseScreen = () => {
           <Text style={styles.buttonText}>Register</Text>
         </View>
       </TouchableOpacity>
-    </View>
+    </MainViewWrapper>
   );
 };
 

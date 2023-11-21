@@ -1,26 +1,42 @@
-import {View} from 'native-base';
-import {Image, StyleSheet} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
+import {StatusBar, View, StyleSheet} from 'react-native';
+import {widthPercentageToDP} from 'react-native-responsive-screen';
 
-const MainViewWrapper = ({children}) => {
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
+const MainViewWrapper = ({children, bgColor, statusBgColor}) => {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View style={styles.imageContainer}>
-      <Image source={require('../../assets/images/Header_bg.png')} />
-      <View style={styles.container}>{children}</View>
+    <View
+      style={[
+        styles.mainContainer,
+
+        // eslint-disable-next-line react-native/no-inline-styles
+        {
+          paddingTop: insets.top,
+          backgroundColor: bgColor ? bgColor : '#F5F5F5',
+        },
+      ]}>
+      <StatusBar
+        animated={true}
+        backgroundColor={statusBgColor ? statusBgColor : '#F5F5F5'} // Set status bar color based on bgColor
+        barStyle={'dark-content'}
+        showHideTransition={'slide'}
+      />
+      {children}
     </View>
   );
 };
+
 const styles = StyleSheet.create({
-  imageContainer: {
+  mainContainer: {
     alignItems: 'center',
+    backgroundColor: '#F5F5F5',
     flex: 1,
-  },
-  container: {
-    flex: 1,
-    padding: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the alpha channel for background transparency
+    justifyContent: 'flex-start',
+    width: widthPercentageToDP('100'),
   },
 });
 export default MainViewWrapper;
