@@ -11,7 +11,7 @@ import moment from 'moment';
 import ExpenseListItem from '../../components/Expense/ExpenseListItem';
 
 const ExpenseDetail = ({route}) => {
-  const {name, amount, transactionType, date, reason} = route.params;
+  const {name, amount, transactionType, date, reason, note} = route.params;
 
   return (
     <MainViewWrapper statusBgColor={'#6947cc'}>
@@ -20,12 +20,9 @@ const ExpenseDetail = ({route}) => {
         <View
           // eslint-disable-next-line react-native/no-inline-styles
           style={{
-            marginTop: '5%',
-            width: widthPercentageToDP(90),
-            justifyContent: 'space-between',
-            height: '55%',
+            ...styles.detailContainer,
+            height: note !== '' ? '75%' : '60%',
           }}>
-          {/* <Text style={styles.text}>{`PKR ${amount}`}</Text> */}
           <Text style={styles.text}>Transaction Details</Text>
 
           <ExpenseListItem
@@ -50,6 +47,14 @@ const ExpenseDetail = ({route}) => {
             text={transactionType === 'Debit' ? 'Earnings' : 'Spending'}
             mainText={`PKR ${amount}`}
           />
+          {note !== '' && (
+            <View style={styles.noteConteiner}>
+              <Text style={styles.text}>Note</Text>
+              <View style={styles.noteTextContainer}>
+                <Text style={styles.noteText}>{note}</Text>
+              </View>
+            </View>
+          )}
         </View>
       </SubContainer>
     </MainViewWrapper>
@@ -58,26 +63,23 @@ const ExpenseDetail = ({route}) => {
 
 const styles = StyleSheet.create({
   text: {color: '#fff', fontFamily: 'inter_semibold', fontSize: 24},
-  buttonContainer: {
-    borderRadius: 40,
-    paddingVertical: 20,
-    paddingHorizontal: 90,
-    backgroundColor: '#3E7C78',
-    marginTop: '2%',
-  },
-  listText: {
-    color: '#fff',
-    fontFamily: 'inter_medium',
-    fontSize: 18,
-  },
-  listMainText: {
-    color: '#000',
-    fontFamily: 'inter_medium',
-    fontSize: 18,
-  },
-  listContainer: {
-    flexDirection: 'row',
+  detailContainer: {
+    marginTop: '5%',
+    width: widthPercentageToDP(90),
     justifyContent: 'space-between',
+  },
+  noteConteiner: {
+    alignItems: 'center',
+    width: widthPercentageToDP(90),
+  },
+  noteTextContainer: {
+    alignItems: 'flex-start',
+    width: widthPercentageToDP(90),
+  },
+  noteText: {
+    color: '#fff',
+    fontFamily: 'inter_regular',
+    fontSize: 15,
   },
 });
 

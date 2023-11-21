@@ -23,6 +23,7 @@ const HomeScreen = ({navigation}) => {
       amount={item.amount}
       transactionType={item.transactionType}
       reason={item.reason}
+      note={item.note}
       navigate={navigate}
     />
   );

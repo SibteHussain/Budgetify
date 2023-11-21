@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   listMainText: {
-    color: '#000',
+    color: '#fff',
     fontFamily: 'inter_medium',
     fontSize: 18,
   },

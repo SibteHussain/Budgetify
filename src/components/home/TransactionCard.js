@@ -9,6 +9,7 @@ const TransactionCard = ({
   date,
   reason,
   transactionType,
+  note,
   navigate,
 }) => {
   return (
@@ -20,6 +21,7 @@ const TransactionCard = ({
           name: name,
           date: date,
           reason: reason,
+          note: note,
         })
       }>
       <View style={styles.mainContainer}>

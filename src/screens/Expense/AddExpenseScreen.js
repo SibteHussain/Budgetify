@@ -1,13 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import {useFormik} from 'formik';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import {Input, Select} from 'native-base';
+import {Input, Select, TextArea} from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddPayee from '../../components/Payee/AddPayee';
 import {useAppStateProvider} from '../../components/providers/AppStateProvider';
 import GeneralHeader from '../../components/GeneralHeader';
 import MainViewWrapper from '../../components/MainViewWrapper';
 import moment from 'moment';
+import SubContainer from '../../components/SubContainer';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 
 const generateRandomId = () => {
   // Generate a random alphanumeric id, e.g., using Date.now()
@@ -34,6 +39,7 @@ const AddExpenseScreen = () => {
       reason: '',
       date: moment().format('YYYY-MM-DDTHH:mm:ssZ'),
       transactionType: '',
+      note: '',
     },
     onSubmit: async values => {
       try {
@@ -75,66 +81,116 @@ const AddExpenseScreen = () => {
   }, [payees, showModal]);
 
   return (
-    <MainViewWrapper statusBgColor={'#3E7C78'}>
-      <GeneralHeader bgColor={'#3E7C78'} title={'ADD EXPENSE'} />
-      <AddPayee showModal={showModal} setShowModal={setShowModal} />
-      <Select
-        selectedValue={formik.values.name ? formik.values.name : 'N/A'}
-        minWidth="200"
-        accessibilityLabel="Choose Name"
-        placeholder="Choose Name"
-        _selectedItem={{
-          bg: 'teal.600',
-        }}
-        mt={1}
-        onValueChange={itemValue => formik.setFieldValue('name', itemValue)}>
-        {payees.length > 0 ? (
-          payees.map(payee => (
-            <Select.Item label={payee.name} value={payee.name} key={payee.id} />
-          ))
-        ) : (
-          <Select.Item label="N/A" value="N/A" key="N/A" />
-        )}
-      </Select>
+    <MainViewWrapper statusBgColor={'#6947cc'}>
+      <GeneralHeader bgColor={'#6947cc'} title={'ADD EXPENSE'} />
+      <SubContainer>
+        <View style={styles.cardContainer}>
+          <AddPayee showModal={showModal} setShowModal={setShowModal} />
+          <View>
+            <Select
+              selectedValue={formik.values.name ? formik.values.name : 'N/A'}
+              minWidth="200"
+              accessibilityLabel="Choose Name"
+              placeholder="Choose Name"
+              _selectedItem={{
+                bg: '#6947cc',
+              }}
+              mt={1}
+              onValueChange={itemValue =>
+                formik.setFieldValue('name', itemValue)
+              }>
+              {payees.length > 0 ? (
+                payees.map(payee => (
+                  <Select.Item
+                    label={payee.name}
+                    value={payee.name}
+                    key={payee.id}
+                  />
+                ))
+              ) : (
+                <Select.Item label="N/A" value="N/A" key="N/A" />
+              )}
+            </Select>
+            <View style={styles.payeeTextContainer}>
+              <Text style={styles.text}>Can't find your payee? </Text>
+              <TouchableOpacity onPress={() => setShowModal(true)}>
+                {/*  eslint-disable-next-line react-native/no-inline-styles */}
+                <Text style={{...styles.text, color: '#6947cc'}}>
+                  Add a payee
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
 
-      <Select
-        selectedValue={formik.values.transactionType}
-        minWidth={200}
-        accessibilityLabel="Choose Transaction Type"
-        placeholder="Choose Transaction Type"
-        _selectedItem={{
-          bg: 'teal.600',
-        }}
-        mt={1}
-        onValueChange={itemValue =>
-          formik.setFieldValue('transactionType', itemValue)
-        }>
-        <Select.Item label="Debit" value="Debit" />
-        <Select.Item label="Credit" value="Credit" />
-      </Select>
-      <Input
-        placeholder="Amount"
-        maxWidth={200}
-        type="number"
-        value={formik.values.amount}
-        onChangeText={formik.handleChange('amount')}
-      />
-      <Input
-        placeholder="Reason"
-        maxWidth={200}
-        value={formik.values.reason}
-        onChangeText={formik.handleChange('reason')}
-      />
-      <TouchableOpacity onPress={() => setShowModal(true)}>
-        <View style={styles.buttonContainer}>
-          <Text style={styles.buttonText}>Add Payee</Text>
+          <Select
+            selectedValue={formik.values.transactionType}
+            minWidth={200}
+            accessibilityLabel="Choose Transaction Type"
+            placeholder="Choose Transaction Type"
+            _selectedItem={{
+              bg: '#6947cc',
+            }}
+            onValueChange={itemValue =>
+              formik.setFieldValue('transactionType', itemValue)
+            }>
+            <Select.Item label="Debit" value="Debit" />
+            <Select.Item label="Credit" value="Credit" />
+          </Select>
+          <View style={styles.lowerFieldsContainer}>
+            <Input
+              placeholder="Amount"
+              maxWidth={110}
+              type="number"
+              value={formik.values.amount}
+              onChangeText={formik.handleChange('amount')}
+              backgroundColor={'#fff'}
+              mr={'1%'}
+            />
+            <Select
+              selectedValue={formik.values.reason}
+              minWidth={200}
+              accessibilityLabel="Choose Reason"
+              placeholder="Choose Reason"
+              _selectedItem={{
+                bg: '#6947cc',
+              }}
+              onValueChange={itemValue =>
+                formik.setFieldValue('reason', itemValue)
+              }>
+              <Select.Item label="Loan" value="Loan" />
+              <Select.Item label="Business" value="Business" />
+              <Select.Item label="Transport" value="Transport" />
+              <Select.Item label="Investment" value="Investment" />
+              <Select.Item label="Goods" value="Goods" />
+            </Select>
+
+            {/* <Input
+              placeholder="Reason"
+              maxWidth={100}
+              value={formik.values.reason}
+              onChangeText={formik.handleChange('reason')}
+            /> */}
+          </View>
+          <TextArea
+            placeholder={'Note'}
+            value={formik.values.note}
+            onChangeText={formik.handleChange('note')}
+            cursorColor={'#ffff'}
+            fontSize={15}
+            backgroundColor={'#fff'}
+            borderWidth={1}
+            borderRadius={20}
+            color={'#000'}
+            // h={heightPercentageToDP(55)}
+            fontWeight={800}
+          />
+          <TouchableOpacity onPress={formik.handleSubmit}>
+            <View style={styles.buttonContainer}>
+              <Text style={styles.buttonText}>Add</Text>
+            </View>
+          </TouchableOpacity>
         </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={formik.handleSubmit}>
-        <View style={styles.buttonContainer}>
-          <Text style={styles.buttonText}>Register</Text>
-        </View>
-      </TouchableOpacity>
+      </SubContainer>
     </MainViewWrapper>
   );
 };
@@ -144,13 +200,41 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  text: {color: '#000', fontFamily: 'inter_bold', fontSize: 45},
+  text: {color: '#000', fontFamily: 'inter_medium', fontSize: 12},
   buttonContainer: {
     borderRadius: 40,
     paddingVertical: 20,
-    paddingHorizontal: 90,
-    backgroundColor: '#3E7C78',
+    alignItems: 'center',
+    backgroundColor: '#6947cc',
     marginTop: '2%',
+  },
+  cardContainer: {
+    backgroundColor: '#fff', // Set background color for the card
+    borderRadius: 16, // Add border radius for rounded corners
+    padding: 16, // Add padding for spacing inside the card
+    marginVertical: 10, // Add margin for spacing between cards
+    shadowColor: '#000', // Add shadow for a lift effect
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    width: widthPercentageToDP(90),
+    height: heightPercentageToDP(60),
+    justifyContent: 'space-between',
+  },
+  buttonText: {
+    color: '#fff',
+    fontFamily: 'inter_medium',
+    fontSize: 14,
+  },
+  payeeTextContainer: {flexDirection: 'row', marginTop: '4%'},
+  lowerFieldsContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'space-between',
   },
 });
 
