@@ -28,7 +28,7 @@ const HomeScreen = ({navigation}) => {
     />
   );
   return (
-    <MainViewWrapper statusBgColor={'#429690'}>
+    <MainViewWrapper statusBgColor={'#6947cc'}>
       <View style={styles.topContainer}>
         <CreditCard />
         <View style={styles.transactionsContainer}>
@@ -49,7 +49,7 @@ const HomeScreen = ({navigation}) => {
         </View>
       )}
       <TouchableOpacity onPress={() => navigate('AddExpense')}>
-        <Icon name="pluscircle" size={60} color="#2F7E79" />
+        <Icon name="pluscircle" size={60} color="#6947cc" />
       </TouchableOpacity>
     </MainViewWrapper>
   );
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   topContainer: {
-    backgroundColor: '#429690',
+    backgroundColor: '#6947cc',
     width: widthPercentageToDP(100),
     alignItems: 'center',
   },

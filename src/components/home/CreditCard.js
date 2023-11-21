@@ -36,11 +36,11 @@ const CreditCard = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     // alignItems: 'space-around',
-    backgroundColor: '#2F7E79',
+    backgroundColor: '#431cb8',
     paddingVertical: 30,
     paddingHorizontal: 15,
     borderRadius: 15,
-    width: widthPercentageToDP(80),
+    width: widthPercentageToDP(90),
     marginVertical: '4%',
   },
   text: {color: '#fff', fontFamily: 'inter_regular', fontSize: 15},
