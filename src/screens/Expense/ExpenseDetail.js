@@ -8,6 +8,7 @@ import MainViewWrapper from '../../components/MainViewWrapper';
 import SubContainer from '../../components/SubContainer';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import moment from 'moment';
+import ExpenseListItem from '../../components/Expense/ExpenseListItem';
 
 const ExpenseDetail = ({route}) => {
   const {name, amount, transactionType, date, reason} = route.params;
@@ -26,43 +27,29 @@ const ExpenseDetail = ({route}) => {
           }}>
           {/* <Text style={styles.text}>{`PKR ${amount}`}</Text> */}
           <Text style={styles.text}>Transaction Details</Text>
-          <View style={styles.listContainer}>
-            <Text style={styles.listText}>Status</Text>
-            <Text style={styles.listMainText}>
-              {transactionType === 'Debit' ? 'Income' : 'Expense'}
-            </Text>
-          </View>
-          <View style={styles.listContainer}>
-            <Text style={styles.listText}>
-              {transactionType === 'Debit' ? 'From' : 'To'}
-            </Text>
-            <Text style={styles.listMainText}>{name}</Text>
-          </View>
-          <View style={styles.listContainer}>
-            <Text style={styles.listText}>Time</Text>
-            <Text style={styles.listMainText}>
-              {' '}
-              {moment.utc(date).local().fromNow()}
-            </Text>
-          </View>
-          <View style={styles.listContainer}>
-            <Text style={styles.listText}>Date</Text>
-            <Text style={styles.listMainText}>
-              {moment().format('MMM Do YYYY')}
-            </Text>
-          </View>
-          <View style={styles.listContainer}>
-            <Text style={styles.listText}>Reason</Text>
-            <Text style={styles.listMainText}>{reason}</Text>
-          </View>
+
+          <ExpenseListItem
+            text="Status"
+            mainText={transactionType === 'Debit' ? 'Income' : 'Expense'}
+          />
+          <ExpenseListItem
+            text={transactionType === 'Debit' ? 'From' : 'To'}
+            mainText={name}
+          />
+          <ExpenseListItem
+            text="Time"
+            mainText={moment.utc(date).local().fromNow()}
+          />
+          <ExpenseListItem
+            text="Date"
+            mainText={moment().format('MMM Do YYYY')}
+          />
+          <ExpenseListItem text="Reason" mainText={reason} />
           <Divider width={widthPercentageToDP(90)} />
-          <View style={styles.listContainer}>
-            <Text style={styles.listText}>
-              {' '}
-              {transactionType === 'Debit' ? 'Earnings' : 'Spending'}
-            </Text>
-            <Text style={styles.listMainText}>{`PKR ${amount}`}</Text>
-          </View>
+          <ExpenseListItem
+            text={transactionType === 'Debit' ? 'Earnings' : 'Spending'}
+            mainText={`PKR ${amount}`}
+          />
         </View>
       </SubContainer>
     </MainViewWrapper>
