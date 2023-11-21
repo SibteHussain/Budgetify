@@ -1,6 +1,8 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
+import moment from 'moment';
+
 const TransactionCard = ({
   name,
   amount,
@@ -23,7 +25,9 @@ const TransactionCard = ({
       <View style={styles.mainContainer}>
         <View style={styles.nameContainer}>
           <Text style={styles.nameText}>{name}</Text>
-          <Text style={styles.dateText}>{date}</Text>
+          <Text style={styles.dateText}>
+            {moment.utc(date).local().fromNow()}
+          </Text>
         </View>
         <Text
           // eslint-disable-next-line react-native/no-inline-styles

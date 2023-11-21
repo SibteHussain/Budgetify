@@ -7,6 +7,7 @@ import AddPayee from '../../components/Payee/AddPayee';
 import {useAppStateProvider} from '../../components/providers/AppStateProvider';
 import GeneralHeader from '../../components/GeneralHeader';
 import MainViewWrapper from '../../components/MainViewWrapper';
+import moment from 'moment';
 
 const generateRandomId = () => {
   // Generate a random alphanumeric id, e.g., using Date.now()
@@ -31,7 +32,7 @@ const AddExpenseScreen = () => {
       name: '',
       amount: '',
       reason: '',
-      date: new Date().toISOString().split('T')[0],
+      date: moment().format('YYYY-MM-DDTHH:mm:ssZ'),
       transactionType: '',
     },
     onSubmit: async values => {
