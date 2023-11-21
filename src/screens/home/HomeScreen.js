@@ -1,6 +1,6 @@
 import {Text, View} from 'native-base';
-import React, {useState, useEffect} from 'react';
-import {FlatList, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 import CreditCard from '../../components/home/CreditCard';
 import TransactionCard from '../../components/home/TransactionCard';
 import {useAppStateProvider} from '../../components/providers/AppStateProvider';
@@ -10,8 +10,11 @@ import {
 } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/AntDesign';
 import MainViewWrapper from '../../components/MainViewWrapper';
+import DatePicker from 'react-native-date-picker';
 
 const HomeScreen = ({navigation}) => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
   const {navigate} = navigation;
   const {expenses} = useAppStateProvider();
 
@@ -29,10 +32,25 @@ const HomeScreen = ({navigation}) => {
   );
   return (
     <MainViewWrapper statusBgColor={'#6947cc'}>
+      <DatePicker
+        modal
+        open={open}
+        date={selectedDate}
+        onConfirm={input => {
+          setOpen(false);
+          setSelectedDate(input);
+        }}
+        onCancel={() => {
+          setOpen(false);
+        }}
+      />
       <View style={styles.topContainer}>
         <CreditCard />
         <View style={styles.transactionsContainer}>
           <Text style={styles.text}>Transaction History</Text>
+          <TouchableOpacity onPress={() => setOpen(true)}>
+            <Icon name="calendar" size={22} color="#fff" />
+          </TouchableOpacity>
         </View>
       </View>
       {expenses.length > 0 ? (
@@ -67,6 +85,8 @@ const styles = StyleSheet.create({
   transactionsContainer: {
     width: widthPercentageToDP(90),
     marginTop: '2%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   text: {
     color: '#fff',
