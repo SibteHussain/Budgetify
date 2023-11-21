@@ -3,11 +3,7 @@ import React from 'react';
 import {StatusBar, View, StyleSheet} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-
-const MainViewWrapper = ({children, bgColor, statusBgColor}) => {
-  const insets = useSafeAreaInsets();
-
+const SubContainer = ({children, bgColor, statusBgColor}) => {
   return (
     <View
       style={[
@@ -15,16 +11,10 @@ const MainViewWrapper = ({children, bgColor, statusBgColor}) => {
 
         // eslint-disable-next-line react-native/no-inline-styles
         {
-          paddingTop: insets.top,
-          backgroundColor: bgColor ? bgColor : '#F5F5F5',
+          marginTop: '15%',
+          backgroundColor: bgColor ? bgColor : '#6947cc',
         },
       ]}>
-      <StatusBar
-        animated={true}
-        backgroundColor={statusBgColor ? statusBgColor : '#F5F5F5'} // Set status bar color based on bgColor
-        barStyle={'light-content'}
-        showHideTransition={'slide'}
-      />
       {children}
     </View>
   );
@@ -37,6 +27,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     width: widthPercentageToDP('100'),
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
 });
-export default MainViewWrapper;
+export default SubContainer;

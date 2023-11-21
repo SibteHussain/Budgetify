@@ -9,6 +9,7 @@ import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/AntDesign';
+import MainViewWrapper from '../../components/MainViewWrapper';
 
 const HomeScreen = ({navigation}) => {
   const {navigate} = navigation;
@@ -21,10 +22,11 @@ const HomeScreen = ({navigation}) => {
       date={item.date}
       amount={item.amount}
       transactionType={item.transactionType}
+      navigate={navigate}
     />
   );
   return (
-    <View style={styles.mainContainer}>
+    <MainViewWrapper statusBgColor={'#429690'}>
       <View style={styles.topContainer}>
         <CreditCard />
         <View style={styles.transactionsContainer}>
@@ -47,7 +49,7 @@ const HomeScreen = ({navigation}) => {
       <TouchableOpacity onPress={() => navigate('AddExpense')}>
         <Icon name="pluscircle" size={60} color="#2F7E79" />
       </TouchableOpacity>
-    </View>
+    </MainViewWrapper>
   );
 };
 

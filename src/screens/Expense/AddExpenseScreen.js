@@ -75,7 +75,7 @@ const AddExpenseScreen = () => {
 
   return (
     <MainViewWrapper statusBgColor={'#3E7C78'}>
-      <GeneralHeader bgColor={'#3E7C78'} title={'Add Expense'} />
+      <GeneralHeader bgColor={'#3E7C78'} title={'ADD EXPENSE'} />
       <AddPayee showModal={showModal} setShowModal={setShowModal} />
       <Select
         selectedValue={formik.values.name ? formik.values.name : 'N/A'}

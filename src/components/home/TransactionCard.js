@@ -1,23 +1,33 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
-const TransactionCard = ({name, amount, date, transactionType}) => {
+const TransactionCard = ({name, amount, date, transactionType, navigate}) => {
   return (
-    <View style={styles.mainContainer}>
-      <View style={styles.nameContainer}>
-        <Text style={styles.nameText}>{name}</Text>
-        <Text style={styles.dateText}>{date}</Text>
+    <TouchableOpacity
+      onPress={() =>
+        navigate('ExpenseDetail', {
+          transactionType: transactionType,
+          amount: amount,
+          name: name,
+          date: date,
+        })
+      }>
+      <View style={styles.mainContainer}>
+        <View style={styles.nameContainer}>
+          <Text style={styles.nameText}>{name}</Text>
+          <Text style={styles.dateText}>{date}</Text>
+        </View>
+        <Text
+          // eslint-disable-next-line react-native/no-inline-styles
+          style={{
+            color: transactionType === 'Debit' ? '#25A969' : '#F95B51',
+            fontFamily: 'inter_semibold',
+            fontSize: 18,
+          }}>
+          {amount}
+        </Text>
       </View>
-      <Text
-        // eslint-disable-next-line react-native/no-inline-styles
-        style={{
-          color: transactionType === 'Debit' ? '#25A969' : '#F95B51',
-          fontFamily: 'inter_semibold',
-          fontSize: 18,
-        }}>
-        {amount}
-      </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 const styles = StyleSheet.create({

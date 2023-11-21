@@ -3,8 +3,9 @@ import React from 'react';
 import OnboardingScreen from '../screens/onboarding/OnboardingScreen';
 import HomeScreen from '../screens/home/HomeScreen';
 import RegisterScreen from '../screens/onboarding/RegisterScreen';
-import AddExpenseScreen from '../screens/addExpense/AddExpenseScreen';
+import AddExpenseScreen from '../screens/Expense/AddExpenseScreen';
 import ShowExpenseScreen from '../screens/showExpense/ShowExpenseScreen';
+import ExpenseDetail from '../screens/Expense/ExpenseDetail';
 const Stack = createStackNavigator();
 
 const MyStack = () => {
@@ -25,6 +26,7 @@ const MyStack = () => {
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
       <Stack.Screen name="showExpense" component={ShowExpenseScreen} />
+      <Stack.Screen name="ExpenseDetail" component={ExpenseDetail} />
     </Stack.Navigator>
   );
 };
