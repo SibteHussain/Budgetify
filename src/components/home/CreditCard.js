@@ -10,7 +10,6 @@ import NameModal from './NameModal';
 const CreditCard = () => {
   const [showModal, setShowModal] = useState(false);
   const {income, expense, user} = useAppStateProvider();
-  console.log(user);
   return (
     <View style={styles.mainContainer}>
       <NameModal showModal={showModal} setShowModal={setShowModal} />

@@ -1,5 +1,5 @@
 import {Text, View} from 'native-base';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 import CreditCard from '../../components/home/CreditCard';
 import TransactionCard from '../../components/home/TransactionCard';
@@ -14,11 +14,25 @@ import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 
 const HomeScreen = ({navigation}) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const {navigate} = navigation;
-  const {expenses} = useAppStateProvider();
+  const {expenses, selectedDate, setSelectedDate} = useAppStateProvider();
+  const [filteredExpenses, setFilteredExpenses] = useState(expenses);
+  useEffect(() => {
+    const filtered = expenses.filter(expense => {
+      const expenseDate = moment(expense.date).startOf('day');
+      const selectedDateFormatted = moment(selectedDate).startOf('day');
+      const currentDate = moment().startOf('day');
 
+      return (
+        expenseDate.isSameOrAfter(selectedDateFormatted) &&
+        expenseDate.isSameOrBefore(currentDate)
+      );
+    });
+
+    setFilteredExpenses(filtered);
+  }, [expenses, selectedDate]);
+  console.log(filteredExpenses);
   const renderItem = ({item}) => (
     <TransactionCard
       name={item.name}
@@ -39,7 +53,7 @@ const HomeScreen = ({navigation}) => {
         date={selectedDate}
         onConfirm={input => {
           setOpen(false);
-          setSelectedDate(moment(selectedDate).format('YYYY-MM-DDTHH:mm:ssZ'));
+          setSelectedDate(input);
         }}
         onCancel={() => {
           setOpen(false);
@@ -54,12 +68,14 @@ const HomeScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      {expenses.length > 0 ? (
+      {filteredExpenses.length > 0 ? (
         <View style={styles.listContainer}>
           <FlatList
-            data={expenses}
+            data={filteredExpenses}
             renderItem={renderItem}
             keyExtractor={item => item.id.toString()}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
           />
         </View>
       ) : (

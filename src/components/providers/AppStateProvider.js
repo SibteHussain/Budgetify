@@ -2,6 +2,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Text} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
 
 const CreateAppStateProviderContext = React.createContext();
 
@@ -19,12 +20,15 @@ const AppStateProvider = ({children}) => {
   const [payees, setPayees] = useState([]);
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
+  const [selectedDate, setSelectedDate] = useState(new Date()); // Correct usage of useState for initialization
   const [user, setUser] = useState({
     name: 'Guest',
     id: 0,
     email: 'sample@sample.com',
   });
   const [loading, setLoading] = useState(true);
+
+  // Other logic and state management...
 
   useEffect(() => {
     const fetchData = async () => {
@@ -120,6 +124,8 @@ const AppStateProvider = ({children}) => {
     user,
     setUser,
     loading, // Add loading state to indicate whether user data is still being fetched
+    selectedDate,
+    setSelectedDate,
   };
 
   // Render loading state or children based on whether user data has been fetched
