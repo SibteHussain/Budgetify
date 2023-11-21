@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   headingText: {color: '#000', fontFamily: 'inter_semibold', fontSize: 25},
   listContainer: {
-    height: heightPercentageToDP(45),
+    height: heightPercentageToDP(51),
     paddingVertical: '2%',
   },
   transactionsContainer: {
