@@ -1,4 +1,6 @@
+// ... (other imports)
 import React, {useContext, useEffect, useState} from 'react';
+import {Text} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CreateAppStateProviderContext = React.createContext();
@@ -17,75 +19,113 @@ const AppStateProvider = ({children}) => {
   const [payees, setPayees] = useState([]);
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
+  const [user, setUser] = useState({
+    name: 'Guest',
+    id: 0,
+    email: 'sample@sample.com',
+  });
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const savedExpenses = await AsyncStorage.getItem('expenses');
         const currentExpenses = JSON.parse(savedExpenses);
-        setExpenses(currentExpenses || []); // Set to an empty array if null or undefined
+        setExpenses(currentExpenses || []);
       } catch (error) {
-        console.error('Error fetching user data:', error);
-        setExpenses([]); // Set to an empty array in case of an error
+        console.error('Error fetching expenses data:', error);
+        setExpenses([]);
       }
     };
 
     const fetchPayees = async () => {
       try {
-        const savedPayees = await AsyncStorage.getItem('payees'); // Fix the typo here
+        const savedPayees = await AsyncStorage.getItem('payees');
         const currentPayees = JSON.parse(savedPayees);
-        setPayees(currentPayees || []); // Set to an empty array if null or undefined
+        setPayees(currentPayees || []);
       } catch (error) {
         console.error('Error fetching payees data:', error);
-        setPayees([]); // Set to an empty array in case of an error
+        setPayees([]);
       }
     };
 
     const fetchIncome = async () => {
       try {
-        const savedIncome = await AsyncStorage.getItem('income'); // Fix the typo here
+        const savedIncome = await AsyncStorage.getItem('income');
         const currentIncome = JSON.parse(savedIncome);
-        setIncome(currentIncome || 0); // Set to an empty array if null or undefined
+        setIncome(currentIncome || 0);
       } catch (error) {
-        console.error('Error fetching payees data:', error);
-        setIncome(0); // Set to an empty array in case of an error
+        console.error('Error fetching income data:', error);
+        setIncome(0);
+      }
+    };
+
+    const fetchUser = async () => {
+      try {
+        const savedUser = await AsyncStorage.getItem('user');
+        const currentUser = JSON.parse(savedUser);
+        setUser(
+          currentUser || [
+            {
+              name: 'Guest',
+              id: 0,
+              email: 'sample@sample.com',
+            },
+          ],
+        );
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        setUser([
+          {
+            name: 'Guest',
+            id: 0,
+            email: 'sample@sample.com',
+          },
+        ]);
+      } finally {
+        setLoading(false); // Set loading to false whether the user data is fetched successfully or not
       }
     };
 
     const fetchExpense = async () => {
       try {
-        const savedExpense = await AsyncStorage.getItem('expense'); // Fix the typo here
+        const savedExpense = await AsyncStorage.getItem('expense');
         const currentExpense = JSON.parse(savedExpense);
-        setExpense(currentExpense || 0); // Set to an empty array if null or undefined
+        setExpense(currentExpense || 0);
       } catch (error) {
-        console.error('Error fetching payees data:', error);
-        setExpense(0); // Set to an empty array in case of an error
+        console.error('Error fetching expense data:', error);
+        setExpense(0);
       }
     };
 
-    fetchData(); // Call the function immediately when the component mounts
+    // Call the functions immediately when the component mounts
+    fetchUser();
+    fetchData();
     fetchPayees();
     fetchIncome();
     fetchExpense();
 
     // Note: If you want to run this effect whenever 'expenses' change, remove the dependency array altogether
-  }, []); // Empty dependency array ensures that the effect runs only once when the component mounts.
+  }, []);
 
   const providerValue = {
     expenses,
     setExpenses,
-
     payees,
     setPayees,
-
     income,
     setIncome,
-
     expense,
     setExpense,
+    user,
+    setUser,
+    loading, // Add loading state to indicate whether user data is still being fetched
   };
+
+  // Render loading state or children based on whether user data has been fetched
   return (
     <CreateAppStateProviderContext.Provider value={providerValue}>
-      {children}
+      {loading ? <Text>Loading...</Text> : children}
     </CreateAppStateProviderContext.Provider>
   );
 };

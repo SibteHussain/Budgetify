@@ -1,17 +1,29 @@
 import {Text, View} from 'native-base';
-import React from 'react';
-import {StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/AntDesign';
+import IconEntypo from 'react-native-vector-icons/Entypo';
 import {useAppStateProvider} from '../providers/AppStateProvider';
+import NameModal from './NameModal';
 
 const CreditCard = () => {
-  const {income, expense} = useAppStateProvider();
+  const [showModal, setShowModal] = useState(false);
+  const {income, expense, user} = useAppStateProvider();
+  console.log(user);
   return (
     <View style={styles.mainContainer}>
+      <NameModal showModal={showModal} setShowModal={setShowModal} />
       <View style={styles.balanceContainer}>
-        <Text style={styles.text}>SIBTEHUSSAIN</Text>
-        <Icon name="up" size={15} color="#fff" style={styles.icon} />
+        <Text style={styles.text}>{user[0].name}</Text>
+        <TouchableOpacity onPress={() => setShowModal(true)}>
+          <IconEntypo
+            name="dots-three-horizontal"
+            size={15}
+            color="#fff"
+            style={styles.icon}
+          />
+        </TouchableOpacity>
       </View>
       <Text style={styles.text}>Expense Tracker</Text>
       <View style={styles.bottomContainer}>
@@ -46,6 +58,8 @@ const styles = StyleSheet.create({
   text: {color: '#fff', fontFamily: 'inter_regular', fontSize: 15},
   balanceContainer: {
     flexDirection: 'row',
+    alignItems: 'space-between',
+    justifyContent: 'space-between',
   },
   icon: {marginTop: '5%', marginLeft: '1%'},
   bottomContainer: {
