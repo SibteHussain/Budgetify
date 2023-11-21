@@ -20,7 +20,10 @@ const AppStateProvider = ({children}) => {
   const [payees, setPayees] = useState([]);
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
-  const [selectedDate, setSelectedDate] = useState(new Date()); // Correct usage of useState for initialization
+  const [selectedDate, setSelectedDate] = useState(
+    moment().startOf('month').toDate(),
+  );
+  // Correct usage of useState for initialization
   const [user, setUser] = useState({
     name: 'Guest',
     id: 0,
