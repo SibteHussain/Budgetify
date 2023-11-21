@@ -43,6 +43,7 @@ const AddExpenseScreen = () => {
       date: moment(selectedDate).format('YYYY-MM-DDTHH:mm:ssZ'),
       transactionType: '',
       note: '',
+      payeeId: 0,
     },
     onSubmit: async values => {
       try {
@@ -96,9 +97,16 @@ const AddExpenseScreen = () => {
                 bg: '#6947cc',
               }}
               mt={1}
-              onValueChange={itemValue =>
-                formik.setFieldValue('name', itemValue)
-              }>
+              onValueChange={itemValue => {
+                const selectedPayee = payees.find(
+                  payee => payee.name === itemValue,
+                );
+                formik.setFieldValue('name', itemValue);
+                formik.setFieldValue(
+                  'payeeId',
+                  selectedPayee ? selectedPayee.id : 0,
+                );
+              }}>
               {payees.length > 0 ? (
                 payees.map(payee => (
                   <Select.Item

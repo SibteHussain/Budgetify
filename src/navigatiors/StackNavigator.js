@@ -6,6 +6,7 @@ import RegisterScreen from '../screens/onboarding/RegisterScreen';
 import AddExpenseScreen from '../screens/Expense/AddExpenseScreen';
 import ShowExpenseScreen from '../screens/showExpense/ShowExpenseScreen';
 import ExpenseDetail from '../screens/Expense/ExpenseDetail';
+import BeneficaryTransactions from '../screens/Beneficiaries/BeneficiaryTransactions';
 const Stack = createStackNavigator();
 
 const MyStack = () => {
@@ -28,6 +29,10 @@ const MyStack = () => {
       <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
       <Stack.Screen name="showExpense" component={ShowExpenseScreen} />
       <Stack.Screen name="ExpenseDetail" component={ExpenseDetail} />
+      <Stack.Screen
+        name="BeneficiaryTransactions"
+        component={BeneficaryTransactions}
+      />
     </Stack.Navigator>
   );
 };

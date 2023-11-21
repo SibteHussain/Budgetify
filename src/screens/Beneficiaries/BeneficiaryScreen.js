@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useFormik} from 'formik';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import {Input, Select, TextArea} from 'native-base';
+import {FlatList, Input, Select, TextArea} from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddPayee from '../../components/Payee/AddPayee';
 import {useAppStateProvider} from '../../components/providers/AppStateProvider';
@@ -17,21 +17,31 @@ import {
 } from 'react-native-responsive-screen';
 import BeneficiaryCard from '../../components/Beneficiaries/BeneficiaryCard';
 
-const BeneficiaryScreen = () => {
+const BeneficiaryScreen = ({navigation}) => {
+  const {navigate} = navigation;
   const {payees} = useAppStateProvider();
+  const renderItem = item => {
+    return (
+      <BeneficiaryCard
+        name={item.item.name}
+        email={item.item.email}
+        relation={item.item.relation}
+        id={item.item.id}
+        navigate={navigate}
+      />
+    );
+  };
   return (
     <MainViewWrapper statusBgColor={'#6947cc'}>
       <GeneralHeader bgColor={'#6947cc'} title={'BENEFICIARIES'} />
       {payees.length > 0 ? (
-        payees.map(payee => (
-          <BeneficiaryCard
-            name={payee.name}
-            email={payee.email}
-            relation={payee.relation}
-          />
-        ))
+        <FlatList
+          data={payees}
+          renderItem={item => renderItem(item)}
+          keyExtractor={item => item.id.toString()}
+        />
       ) : (
-        <Text>Add Payees</Text>
+        <Text>Add Beneficaries to see them here</Text>
       )}
     </MainViewWrapper>
   );

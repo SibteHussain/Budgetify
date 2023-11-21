@@ -1,13 +1,17 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import {
-  widthPercentageToDP,
-  heightPercentageToDP,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP} from 'react-native-responsive-screen';
 
-const BeneficiaryCard = ({name, email, relation}) => {
+const BeneficiaryCard = ({name, email, relation, navigate, id}) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() =>
+        navigate('BeneficiaryTransactions', {
+          name: name,
+          id: id,
+          navigate: navigate,
+        })
+      }>
       <View style={styles.cardContainer}>
         <View style={styles.leftContainer}>
           <Text style={styles.text}>{name}</Text>
