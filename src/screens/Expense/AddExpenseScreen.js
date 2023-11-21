@@ -69,8 +69,6 @@ const AddExpenseScreen = () => {
 
         // Save the updated expenses array back to AsyncStorage
         await AsyncStorage.setItem('expenses', JSON.stringify(newExpenses));
-
-        console.log('Values added');
       } catch (error) {
         console.log(error);
       }

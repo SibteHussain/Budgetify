@@ -16,7 +16,8 @@ import moment from 'moment';
 const HomeScreen = ({navigation}) => {
   const [open, setOpen] = useState(false);
   const {navigate} = navigation;
-  const {expenses, selectedDate, setSelectedDate} = useAppStateProvider();
+  const {expenses, selectedDate, setSelectedDate, setIncome, setExpense} =
+    useAppStateProvider();
   const [filteredExpenses, setFilteredExpenses] = useState(expenses);
   useEffect(() => {
     const filtered = expenses.filter(expense => {
@@ -32,7 +33,29 @@ const HomeScreen = ({navigation}) => {
 
     setFilteredExpenses(filtered);
   }, [expenses, selectedDate]);
-  console.log(filteredExpenses);
+  useEffect(() => {
+    let totalIncome = 0;
+
+    if (filteredExpenses.length > 0) {
+      totalIncome = filteredExpenses.reduce((accumulator, expense) => {
+        const amount =
+          expense.transactionType === 'Debit' && parseFloat(expense.amount);
+        return isNaN(amount) ? accumulator : accumulator + amount;
+      }, 0);
+      setIncome(totalIncome);
+    }
+
+    let totalExpense = 0;
+
+    if (filteredExpenses.length > 0) {
+      totalExpense = filteredExpenses.reduce((accumulator, expense) => {
+        const amount =
+          expense.transactionType === 'Credit' && parseFloat(expense.amount);
+        return isNaN(amount) ? accumulator : accumulator + amount;
+      }, 0);
+      setExpense(totalExpense);
+    }
+  }, [filteredExpenses, selectedDate, setIncome, setExpense]);
   const renderItem = ({item}) => (
     <TransactionCard
       name={item.name}

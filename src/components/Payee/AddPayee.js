@@ -39,7 +39,6 @@ const AddPayee = ({showModal, setShowModal}) => {
         // Save the updated payees array back to AsyncStorage
         await AsyncStorage.setItem('payees', JSON.stringify(newPayees));
 
-        console.log('Payee added');
         setShowModal(false);
       } catch (error) {
         console.log(error);
