@@ -9,6 +9,8 @@ import GeneralHeader from '../../components/GeneralHeader';
 import MainViewWrapper from '../../components/MainViewWrapper';
 import moment from 'moment';
 import SubContainer from '../../components/SubContainer';
+import DatePicker from 'react-native-date-picker';
+import Icon from 'react-native-vector-icons/AntDesign';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
@@ -29,7 +31,8 @@ const AddExpenseScreen = () => {
     income,
     setIncome,
   } = useAppStateProvider();
-  console.log('expenses----', expenses);
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const formik = useFormik({
     initialValues: {
@@ -37,7 +40,7 @@ const AddExpenseScreen = () => {
       name: '',
       amount: '',
       reason: '',
-      date: moment().format('YYYY-MM-DDTHH:mm:ssZ'),
+      date: moment(date).format('YYYY-MM-DDTHH:mm:ssZ'),
       transactionType: '',
       note: '',
     },
@@ -73,7 +76,6 @@ const AddExpenseScreen = () => {
       }
     },
   });
-  console.log(payees);
   useEffect(() => {
     if (payees.length === 0) {
       setShowModal(true);
@@ -121,7 +123,6 @@ const AddExpenseScreen = () => {
               </TouchableOpacity>
             </View>
           </View>
-
           <Select
             selectedValue={formik.values.transactionType}
             minWidth={200}
@@ -136,6 +137,36 @@ const AddExpenseScreen = () => {
             <Select.Item label="Debit" value="Debit" />
             <Select.Item label="Credit" value="Credit" />
           </Select>
+          <Input
+            value={moment(date).format('YYYY-MM-DD')}
+            placeholder="Current Date"
+            onPressIn={() => setOpen(true)}
+            isDisabled={true}
+            InputRightElement={
+              <TouchableOpacity onPress={() => setOpen(true)}>
+                {/*  eslint-disable-next-line react-native/no-inline-styles */}
+                <View style={{marginRight: '4%'}}>
+                  <Icon name="calendar" size={20} color="#000" />
+                </View>
+              </TouchableOpacity>
+            }
+          />
+          <DatePicker
+            modal
+            open={open}
+            date={date}
+            onConfirm={date => {
+              setOpen(false);
+              setDate(date);
+              formik.setFieldValue(
+                'date',
+                moment(date).format('YYYY-MM-DDTHH:mm:ssZ'),
+              );
+            }}
+            onCancel={() => {
+              setOpen(false);
+            }}
+          />
           <View style={styles.lowerFieldsContainer}>
             <Input
               placeholder="Amount"
@@ -175,13 +206,11 @@ const AddExpenseScreen = () => {
             placeholder={'Note'}
             value={formik.values.note}
             onChangeText={formik.handleChange('note')}
-            cursorColor={'#ffff'}
-            fontSize={15}
+            fontSize={12}
             backgroundColor={'#fff'}
             borderWidth={1}
             borderRadius={20}
-            color={'#000'}
-            // h={heightPercentageToDP(55)}
+            color={'grey'}
             fontWeight={800}
           />
           <TouchableOpacity onPress={formik.handleSubmit}>
