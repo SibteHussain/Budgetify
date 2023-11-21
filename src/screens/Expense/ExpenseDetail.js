@@ -39,7 +39,7 @@ const ExpenseDetail = ({route}) => {
           />
           <ExpenseListItem
             text="Date"
-            mainText={moment().format('MMM Do YYYY')}
+            mainText={moment(date).format('MMM Do YYYY')}
           />
           <ExpenseListItem text="Reason" mainText={reason} />
           <Divider width={widthPercentageToDP(90)} />

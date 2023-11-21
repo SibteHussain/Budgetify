@@ -31,7 +31,7 @@ const AddExpenseScreen = () => {
     income,
     setIncome,
   } = useAppStateProvider();
-  const [date, setDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const formik = useFormik({
@@ -40,7 +40,7 @@ const AddExpenseScreen = () => {
       name: '',
       amount: '',
       reason: '',
-      date: moment(date).format('YYYY-MM-DDTHH:mm:ssZ'),
+      date: moment(selectedDate).format('YYYY-MM-DDTHH:mm:ssZ'),
       transactionType: '',
       note: '',
     },
@@ -138,7 +138,7 @@ const AddExpenseScreen = () => {
             <Select.Item label="Credit" value="Credit" />
           </Select>
           <Input
-            value={moment(date).format('YYYY-MM-DD')}
+            value={moment(selectedDate).format('YYYY-MM-DD')}
             placeholder="Current Date"
             onPressIn={() => setOpen(true)}
             isDisabled={true}
@@ -154,13 +154,13 @@ const AddExpenseScreen = () => {
           <DatePicker
             modal
             open={open}
-            date={date}
-            onConfirm={date => {
+            date={selectedDate}
+            onConfirm={input => {
               setOpen(false);
-              setDate(date);
+              setSelectedDate(input);
               formik.setFieldValue(
                 'date',
-                moment(date).format('YYYY-MM-DDTHH:mm:ssZ'),
+                moment(input).format('YYYY-MM-DDTHH:mm:ssZ'),
               );
             }}
             onCancel={() => {
