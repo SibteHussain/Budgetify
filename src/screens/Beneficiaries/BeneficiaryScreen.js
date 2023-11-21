@@ -15,209 +15,24 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-
-const generateRandomId = () => {
-  // Generate a random alphanumeric id, e.g., using Date.now()
-  return Date.now().toString(36) + Math.random().toString(36).substr(2);
-};
+import BeneficiaryCard from '../../components/Beneficiaries/BeneficiaryCard';
 
 const BeneficiaryScreen = () => {
-  const {
-    expenses,
-    setExpenses,
-    payees,
-    expense,
-    setExpense,
-    income,
-    setIncome,
-  } = useAppStateProvider();
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const formik = useFormik({
-    initialValues: {
-      id: generateRandomId(),
-      name: '',
-      amount: '',
-      reason: '',
-      date: moment(selectedDate).format('YYYY-MM-DDTHH:mm:ssZ'),
-      transactionType: '',
-      note: '',
-    },
-    onSubmit: async values => {
-      try {
-        // Update income and expense based on transactionType
-        let updatedIncome = income;
-        let updatedExpense = expense;
-
-        if (values.transactionType === 'Debit') {
-          updatedIncome += parseFloat(formik.values.amount);
-          setIncome(updatedIncome);
-        } else if (values.transactionType === 'Credit') {
-          updatedExpense += parseFloat(formik.values.amount);
-          setExpense(updatedExpense);
-        }
-
-        await AsyncStorage.setItem('income', JSON.stringify(updatedIncome));
-        await AsyncStorage.setItem('expense', JSON.stringify(updatedExpense));
-
-        // Retrieve existing expenses from AsyncStorage
-
-        // Add the new expense to the existing expenses array
-        const newExpenses = [values, ...expenses];
-        setExpenses(newExpenses);
-
-        // Save the updated expenses array back to AsyncStorage
-        await AsyncStorage.setItem('expenses', JSON.stringify(newExpenses));
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  });
-  useEffect(() => {
-    if (payees.length === 0) {
-      setShowModal(true);
-    }
-  }, [payees, showModal]);
-
+  const {payees} = useAppStateProvider();
   return (
     <MainViewWrapper statusBgColor={'#6947cc'}>
-      <GeneralHeader bgColor={'#6947cc'} title={'ADD EXPENSE'} />
-      <SubContainer>
-        <View style={styles.cardContainer}>
-          <AddPayee showModal={showModal} setShowModal={setShowModal} />
-          <View>
-            <Select
-              selectedValue={formik.values.name ? formik.values.name : 'N/A'}
-              minWidth="200"
-              accessibilityLabel="Choose Name"
-              placeholder="Choose Name"
-              _selectedItem={{
-                bg: '#6947cc',
-              }}
-              mt={1}
-              onValueChange={itemValue =>
-                formik.setFieldValue('name', itemValue)
-              }>
-              {payees.length > 0 ? (
-                payees.map(payee => (
-                  <Select.Item
-                    label={payee.name}
-                    value={payee.name}
-                    key={payee.id}
-                  />
-                ))
-              ) : (
-                <Select.Item label="N/A" value="N/A" key="N/A" />
-              )}
-            </Select>
-            <View style={styles.payeeTextContainer}>
-              <Text style={styles.text}>Can't find your payee? </Text>
-              <TouchableOpacity onPress={() => setShowModal(true)}>
-                {/*  eslint-disable-next-line react-native/no-inline-styles */}
-                <Text style={{...styles.text, color: '#6947cc'}}>
-                  Add a payee
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <Select
-            selectedValue={formik.values.transactionType}
-            minWidth={200}
-            accessibilityLabel="Choose Transaction Type"
-            placeholder="Choose Transaction Type"
-            _selectedItem={{
-              bg: '#6947cc',
-            }}
-            onValueChange={itemValue =>
-              formik.setFieldValue('transactionType', itemValue)
-            }>
-            <Select.Item label="Debit" value="Debit" />
-            <Select.Item label="Credit" value="Credit" />
-          </Select>
-          <Input
-            value={moment(selectedDate).format('YYYY-MM-DD')}
-            placeholder="Current Date"
-            onPressIn={() => setOpen(true)}
-            isDisabled={true}
-            InputRightElement={
-              <TouchableOpacity onPress={() => setOpen(true)}>
-                {/*  eslint-disable-next-line react-native/no-inline-styles */}
-                <View style={{marginRight: '4%'}}>
-                  <Icon name="calendar" size={20} color="#000" />
-                </View>
-              </TouchableOpacity>
-            }
+      <GeneralHeader bgColor={'#6947cc'} title={'BENEFICIARIES'} />
+      {payees.length > 0 ? (
+        payees.map(payee => (
+          <BeneficiaryCard
+            name={payee.name}
+            email={payee.email}
+            relation={payee.relation}
           />
-          <DatePicker
-            modal
-            open={open}
-            date={selectedDate}
-            onConfirm={input => {
-              setOpen(false);
-              setSelectedDate(input);
-              formik.setFieldValue(
-                'date',
-                moment(input).format('YYYY-MM-DDTHH:mm:ssZ'),
-              );
-            }}
-            onCancel={() => {
-              setOpen(false);
-            }}
-          />
-          <View style={styles.lowerFieldsContainer}>
-            <Input
-              placeholder="Amount"
-              maxWidth={110}
-              type="number"
-              value={formik.values.amount}
-              onChangeText={formik.handleChange('amount')}
-              backgroundColor={'#fff'}
-              mr={'1%'}
-            />
-            <Select
-              selectedValue={formik.values.reason}
-              minWidth={200}
-              accessibilityLabel="Choose Reason"
-              placeholder="Choose Reason"
-              _selectedItem={{
-                bg: '#6947cc',
-              }}
-              onValueChange={itemValue =>
-                formik.setFieldValue('reason', itemValue)
-              }>
-              <Select.Item label="Loan" value="Loan" />
-              <Select.Item label="Business" value="Business" />
-              <Select.Item label="Transport" value="Transport" />
-              <Select.Item label="Investment" value="Investment" />
-              <Select.Item label="Goods" value="Goods" />
-            </Select>
-
-            {/* <Input
-              placeholder="Reason"
-              maxWidth={100}
-              value={formik.values.reason}
-              onChangeText={formik.handleChange('reason')}
-            /> */}
-          </View>
-          <TextArea
-            placeholder={'Note'}
-            value={formik.values.note}
-            onChangeText={formik.handleChange('note')}
-            fontSize={12}
-            backgroundColor={'#fff'}
-            borderWidth={1}
-            borderRadius={20}
-            color={'grey'}
-            fontWeight={800}
-          />
-          <TouchableOpacity onPress={formik.handleSubmit}>
-            <View style={styles.buttonContainer}>
-              <Text style={styles.buttonText}>Add</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </SubContainer>
+        ))
+      ) : (
+        <Text>Add Payees</Text>
+      )}
     </MainViewWrapper>
   );
 };

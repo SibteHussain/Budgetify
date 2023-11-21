@@ -4,6 +4,7 @@ import {useFormik} from 'formik';
 import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAppStateProvider} from '../../components/providers/AppStateProvider';
+import moment from 'moment';
 
 const generateRandomId = () => {
   // Generate a random alphanumeric id, e.g., using Date.now()
@@ -18,6 +19,7 @@ const AddPayee = ({showModal, setShowModal}) => {
       name: '',
       email: '',
       relation: '',
+      date: moment().format('YYYY-MM-DDTHH:mm:ssZ'),
     },
     onSubmit: async values => {
       try {
