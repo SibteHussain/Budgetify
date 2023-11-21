@@ -1,7 +1,14 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
-const TransactionCard = ({name, amount, date, transactionType, navigate}) => {
+const TransactionCard = ({
+  name,
+  amount,
+  date,
+  reason,
+  transactionType,
+  navigate,
+}) => {
   return (
     <TouchableOpacity
       onPress={() =>
@@ -10,6 +17,7 @@ const TransactionCard = ({name, amount, date, transactionType, navigate}) => {
           amount: amount,
           name: name,
           date: date,
+          reason: reason,
         })
       }>
       <View style={styles.mainContainer}>

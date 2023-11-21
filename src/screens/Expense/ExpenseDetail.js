@@ -10,92 +10,70 @@ import MainViewWrapper from '../../components/MainViewWrapper';
 import SubContainer from '../../components/SubContainer';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 
-const generateRandomId = () => {
-  // Generate a random alphanumeric id, e.g., using Date.now()
-  return Date.now().toString(36) + Math.random().toString(36).substr(2);
-};
-
 const ExpenseDetail = ({route}) => {
-  const {name, amount, transactionType, date} = route.params;
-  const {
-    expenses,
-    setExpenses,
-    payees,
-    expense,
-    setExpense,
-    income,
-    setIncome,
-  } = useAppStateProvider();
-  console.log('expenses----', expenses);
-  const [showModal, setShowModal] = useState(false);
-  const formik = useFormik({
-    initialValues: {
-      id: generateRandomId(),
-      name: '',
-      amount: '',
-      reason: '',
-      date: new Date().toISOString().split('T')[0],
-      transactionType: '',
-    },
-    onSubmit: async values => {
-      try {
-        // Update income and expense based on transactionType
-        let updatedIncome = income;
-        let updatedExpense = expense;
-
-        if (values.transactionType === 'Debit') {
-          updatedIncome += parseFloat(formik.values.amount);
-          setIncome(updatedIncome);
-        } else if (values.transactionType === 'Credit') {
-          updatedExpense += parseFloat(formik.values.amount);
-          setExpense(updatedExpense);
-        }
-
-        await AsyncStorage.setItem('income', JSON.stringify(updatedIncome));
-        await AsyncStorage.setItem('expense', JSON.stringify(updatedExpense));
-
-        // Retrieve existing expenses from AsyncStorage
-
-        // Add the new expense to the existing expenses array
-        const newExpenses = [...expenses, values];
-        setExpenses(newExpenses);
-
-        // Save the updated expenses array back to AsyncStorage
-        await AsyncStorage.setItem('expenses', JSON.stringify(newExpenses));
-
-        console.log('Values added');
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  });
-  useEffect(() => {
-    if (payees.length === 0) {
-      setShowModal(true);
-    }
-  }, [payees, showModal]);
+  const {name, amount, transactionType, date, reason} = route.params;
 
   return (
     <MainViewWrapper statusBgColor={'#6947cc'}>
-      <GeneralHeader bgColor={'#6947cc'} title={name} />
+      <GeneralHeader bgColor={'#6947cc'} title={'EXPENSE DETAIL'} />
       <SubContainer>
-        <Text style={styles.text}>{`PKR ${amount}`}</Text>
-        <Text style={styles.text}>Transaction Details</Text>
-        <Text style={styles.listText}>Status</Text>
-        <Text style={styles.listText}>
-          {transactionType === 'Debit' ? 'Income' : 'Expense'}
-        </Text>
-        <Text style={styles.listText}>
-          {transactionType === 'Debit' ? 'From' : 'To'}
-        </Text>
-        <Text style={styles.listText}>Date</Text>
-        <Text style={styles.listText}>{date}</Text>
-        <Divider width={widthPercentageToDP(90)} />
-        <Text style={styles.listText}>
-          {' '}
-          {transactionType === 'Debit' ? 'Earnings' : 'Spending'}
-        </Text>
-        <Text style={styles.listText}>{`PKR ${amount}`}</Text>
+        {/* <View
+          // eslint-disable-next-line react-native/no-inline-styles
+          style={{
+            backgroundColor:
+              transactionType === 'Debit' ? '#438883' : '#F95B51',
+            opacity: 0.7, // Adjust the opacity as needed (0 to 1)
+          }}>
+          <Text
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{
+              ...styles.listText,
+              color: transactionType === 'Debit' ? '#438883' : 'red',
+              opacity: 1,
+            }}>
+            {transactionType === 'Debit' ? 'Income' : 'Expense'}
+          </Text>
+        </View> 
+        // eslint-disable-next-line react-native/no-inline-styles*/}
+        <View
+          // eslint-disable-next-line react-native/no-inline-styles
+          style={{
+            marginTop: '5%',
+            width: widthPercentageToDP(90),
+            justifyContent: 'space-between',
+            height: '50%',
+          }}>
+          {/* <Text style={styles.text}>{`PKR ${amount}`}</Text> */}
+          <Text style={styles.text}>Transaction Details</Text>
+          <View style={styles.listContainer}>
+            <Text style={styles.listText}>Status</Text>
+            <Text style={styles.listMainText}>
+              {transactionType === 'Debit' ? 'Income' : 'Expense'}
+            </Text>
+          </View>
+          <View style={styles.listContainer}>
+            <Text style={styles.listText}>
+              {transactionType === 'Debit' ? 'From' : 'To'}
+            </Text>
+            <Text style={styles.listMainText}>{name}</Text>
+          </View>
+          <View style={styles.listContainer}>
+            <Text style={styles.listText}>Date</Text>
+            <Text style={styles.listMainText}>{date}</Text>
+          </View>
+          <View style={styles.listContainer}>
+            <Text style={styles.listText}>Reason</Text>
+            <Text style={styles.listMainText}>{reason}</Text>
+          </View>
+          <Divider width={widthPercentageToDP(90)} />
+          <View style={styles.listContainer}>
+            <Text style={styles.listText}>
+              {' '}
+              {transactionType === 'Debit' ? 'Earnings' : 'Spending'}
+            </Text>
+            <Text style={styles.listMainText}>{`PKR ${amount}`}</Text>
+          </View>
+        </View>
       </SubContainer>
     </MainViewWrapper>
   );
@@ -114,6 +92,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'inter_medium',
     fontSize: 18,
+  },
+  listMainText: {
+    color: '#000',
+    fontFamily: 'inter_medium',
+    fontSize: 18,
+  },
+  listContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 
