@@ -6,8 +6,8 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import {useAppStateProvider} from '../providers/AppStateProvider';
 
-const TransactionsCard = () => {
-  const {income, expense, user} = useAppStateProvider();
+const TransactionsCard = ({filteredIncome, filteredExpense}) => {
+  const {user} = useAppStateProvider();
 
   return (
     <View style={styles.mainContainer}>
@@ -21,14 +21,14 @@ const TransactionsCard = () => {
             <Icon name="arrowdown" size={15} color="#fff" />
             <Text style={styles.textLight}>Income</Text>
           </View>
-          <Text style={styles.text}>{income}</Text>
+          <Text style={styles.text}>{filteredIncome}</Text>
         </View>
         <View style={styles.expenseContainer}>
           <View style={styles.incomeContainer}>
             <Icon name="arrowup" size={15} color="#fff" />
             <Text style={styles.textLight}>Expenses</Text>
           </View>
-          <Text style={styles.text}>{expense}</Text>
+          <Text style={styles.text}>{filteredExpense}</Text>
         </View>
       </View>
     </View>

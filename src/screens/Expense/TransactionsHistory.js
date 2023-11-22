@@ -13,10 +13,12 @@ import TransactionCard from '../../components/home/TransactionCard';
 
 const TransactionsHistory = ({navigation}) => {
   const {navigate} = navigation;
-  const {expenses, setExpenses} = useAppStateProvider();
+  const {expenses} = useAppStateProvider();
   const [filteredExpenses, setFilteredExpenses] = useState(expenses);
-  const [selectedInterval, setSelectedInterval] = useState('daily');
+  const [selectedInterval, setSelectedInterval] = useState('monthly');
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [filteredIncome, setFilteredIncome] = useState(0);
+  const [filteredExpense, setFilteredExpense] = useState(0);
 
   useEffect(() => {
     const filtered = expenses.filter(expense => {
@@ -29,7 +31,18 @@ const TransactionsHistory = ({navigation}) => {
         expenseDate.isSameOrBefore(currentDate)
       );
     });
-
+    const income = filtered.reduce((accumulator, expense) => {
+      const amount =
+        expense.transactionType === 'Debit' && parseFloat(expense.amount);
+      return isNaN(amount) ? accumulator : accumulator + amount;
+    }, 0);
+    setFilteredIncome(income);
+    const credit = filtered.reduce((accumulator, expense) => {
+      const amount =
+        expense.transactionType === 'Credit' && parseFloat(expense.amount);
+      return isNaN(amount) ? accumulator : accumulator + amount;
+    }, 0);
+    setFilteredExpense(credit);
     setFilteredExpenses(filtered);
   }, [expenses, selectedDate]);
 
@@ -46,7 +59,6 @@ const TransactionsHistory = ({navigation}) => {
   }, [selectedInterval]);
 
   const renderItem = ({item}) => {
-    console.log(item);
     return (
       <TransactionCard
         id={item.id}
@@ -65,7 +77,10 @@ const TransactionsHistory = ({navigation}) => {
     <MainViewWrapper statusBgColor={'#6947cc'}>
       <GeneralHeader bgColor={'#6947cc'} title={'HISTORY'} />
       <View style={styles.topContainer}>
-        <TransactionsCard />
+        <TransactionsCard
+          filteredIncome={filteredIncome}
+          filteredExpense={filteredExpense}
+        />
         <TransactionTabs
           selectedInterval={selectedInterval}
           onSelectTab={setSelectedInterval}
