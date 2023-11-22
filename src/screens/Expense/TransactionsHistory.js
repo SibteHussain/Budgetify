@@ -4,7 +4,10 @@ import {Text, View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 
 import GeneralHeader from '../../components/GeneralHeader';
 import MainViewWrapper from '../../components/MainViewWrapper';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 import moment from 'moment';
 import TransactionsCard from '../../components/Expense/TransactionsCard';
 import TransactionTabs from '../../components/Expense/TransactionTabs';
@@ -129,13 +132,17 @@ const TransactionsHistory = ({navigation}) => {
         </View>
       </View>
       {filteredExpenses.length > 0 ? (
-        <FlatList
-          data={filteredExpenses}
-          renderItem={renderItem}
-          keyExtractor={item => item.id.toString()}
-        />
+        <View style={styles.listContainer}>
+          <FlatList
+            data={filteredExpenses}
+            renderItem={renderItem}
+            keyExtractor={item => item.id.toString()}
+          />
+        </View>
       ) : (
-        <Text>No expenses found</Text>
+        <View style={styles.listContainer}>
+          <Text>No expenses found</Text>
+        </View>
       )}
     </MainViewWrapper>
   );
@@ -155,6 +162,10 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'space-around',
     width: widthPercentageToDP(90),
+  },
+  listContainer: {
+    paddingVertical: '2%',
+    height: heightPercentageToDP(52),
   },
 });
 
