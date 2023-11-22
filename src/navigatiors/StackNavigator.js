@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName={'Home'}
+      initialRouteName={'HomeScreen'}
       screenOptions={{
         headerShown: false,
         headerStyle: {
@@ -24,7 +24,7 @@ const MyStack = () => {
         },
       }}>
       <Stack.Screen name="OnBoarding" component={OnboardingScreen} />
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
       <Stack.Screen name="showExpense" component={ShowExpenseScreen} />

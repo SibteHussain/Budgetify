@@ -114,6 +114,30 @@ const AppStateProvider = ({children}) => {
 
     // Note: If you want to run this effect whenever 'expenses' change, remove the dependency array altogether
   }, []);
+  useEffect(() => {
+    const savePayeesToStorage = async () => {
+      try {
+        await AsyncStorage.setItem('payees', JSON.stringify(payees));
+      } catch (error) {
+        // Handle error, e.g., log it or show a notification
+        console.error('Error saving payees to AsyncStorage:', error);
+      }
+    };
+
+    savePayeesToStorage();
+  }, [payees]);
+  useEffect(() => {
+    const saveExpensesToStorage = async () => {
+      try {
+        await AsyncStorage.setItem('expenses', JSON.stringify(expenses));
+      } catch (error) {
+        // Handle error, e.g., log it or show a notification
+        console.error('Error saving payees to AsyncStorage:', error);
+      }
+    };
+
+    saveExpensesToStorage();
+  }, [expenses]);
 
   const providerValue = {
     expenses,

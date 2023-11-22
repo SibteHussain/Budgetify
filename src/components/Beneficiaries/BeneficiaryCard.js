@@ -1,8 +1,15 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
+import Icon from 'react-native-vector-icons/Feather';
+import {useAppStateProvider} from '../providers/AppStateProvider';
 
 const BeneficiaryCard = ({name, email, relation, navigate, id}) => {
+  const {payees, setPayees} = useAppStateProvider();
+  const handleDelete = async () => {
+    const filtered = payees.filter(payee => payee.id !== id);
+    setPayees(filtered);
+  };
   return (
     <TouchableOpacity
       onPress={() =>
@@ -18,6 +25,9 @@ const BeneficiaryCard = ({name, email, relation, navigate, id}) => {
           <Text style={styles.emailText}>{email}</Text>
         </View>
         <Text style={styles.text}>{relation}</Text>
+        <TouchableOpacity onPress={handleDelete}>
+          <Icon name="trash-2" size={25} color="#fff" />
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
