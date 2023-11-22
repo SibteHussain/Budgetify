@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-import {Text, View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 
 import GeneralHeader from '../../components/GeneralHeader';
 import MainViewWrapper from '../../components/MainViewWrapper';
@@ -15,6 +15,7 @@ import {useAppStateProvider} from '../../components/providers/AppStateProvider';
 import TransactionCard from '../../components/home/TransactionCard';
 import Icon from 'react-native-vector-icons/AntDesign';
 import DatePicker from 'react-native-date-picker';
+import NoDataAvailable from '../../components/NoDataAvailable';
 
 const TransactionsHistory = ({navigation}) => {
   const {navigate} = navigation;
@@ -140,9 +141,7 @@ const TransactionsHistory = ({navigation}) => {
           />
         </View>
       ) : (
-        <View style={styles.expenseContainer}>
-          <Text style={styles.expenseText}>No Data Found</Text>
-        </View>
+        <NoDataAvailable />
       )}
     </MainViewWrapper>
   );

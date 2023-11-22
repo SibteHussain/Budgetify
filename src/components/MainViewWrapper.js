@@ -12,8 +12,6 @@ const MainViewWrapper = ({children, bgColor, statusBgColor}) => {
     <View
       style={[
         styles.mainContainer,
-
-        // eslint-disable-next-line react-native/no-inline-styles
         {
           paddingTop: insets.top,
           backgroundColor: bgColor ? bgColor : '#F5F5F5',
@@ -21,7 +19,7 @@ const MainViewWrapper = ({children, bgColor, statusBgColor}) => {
       ]}>
       <StatusBar
         animated={true}
-        backgroundColor={statusBgColor ? statusBgColor : '#F5F5F5'} // Set status bar color based on bgColor
+        backgroundColor={statusBgColor ? statusBgColor : '#F5F5F5'}
         barStyle={'light-content'}
         showHideTransition={'slide'}
       />

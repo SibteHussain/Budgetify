@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import {useFormik} from 'formik';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Input, Select, TextArea} from 'native-base';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddPayee from '../../components/Payee/AddPayee';
 import {useAppStateProvider} from '../../components/providers/AppStateProvider';
 import GeneralHeader from '../../components/GeneralHeader';

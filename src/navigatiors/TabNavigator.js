@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Platform, View} from 'react-native';
+import React from 'react';
+import {Platform} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import BeneficiaryScreen from '../screens/Beneficiaries/BeneficiaryScreen';
 import Icon from 'react-native-vector-icons/AntDesign';

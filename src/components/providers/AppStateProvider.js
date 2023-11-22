@@ -1,4 +1,3 @@
-// ... (other imports)
 import React, {useContext, useEffect, useState} from 'react';
 import {Text} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -23,15 +22,12 @@ const AppStateProvider = ({children}) => {
   const [selectedDate, setSelectedDate] = useState(
     moment().startOf('month').toDate(),
   );
-  // Correct usage of useState for initialization
   const [user, setUser] = useState({
     name: 'Guest',
     id: 0,
     email: 'sample@sample.com',
   });
   const [loading, setLoading] = useState(true);
-
-  // Other logic and state management...
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,7 +86,7 @@ const AppStateProvider = ({children}) => {
           },
         ]);
       } finally {
-        setLoading(false); // Set loading to false whether the user data is fetched successfully or not
+        setLoading(false);
       }
     };
 
@@ -105,21 +101,17 @@ const AppStateProvider = ({children}) => {
       }
     };
 
-    // Call the functions immediately when the component mounts
     fetchUser();
     fetchData();
     fetchPayees();
     fetchIncome();
     fetchExpense();
-
-    // Note: If you want to run this effect whenever 'expenses' change, remove the dependency array altogether
   }, []);
   useEffect(() => {
     const savePayeesToStorage = async () => {
       try {
         await AsyncStorage.setItem('payees', JSON.stringify(payees));
       } catch (error) {
-        // Handle error, e.g., log it or show a notification
         console.error('Error saving payees to AsyncStorage:', error);
       }
     };
@@ -131,7 +123,6 @@ const AppStateProvider = ({children}) => {
       try {
         await AsyncStorage.setItem('expenses', JSON.stringify(expenses));
       } catch (error) {
-        // Handle error, e.g., log it or show a notification
         console.error('Error saving payees to AsyncStorage:', error);
       }
     };
@@ -144,7 +135,6 @@ const AppStateProvider = ({children}) => {
       try {
         await AsyncStorage.setItem('income', JSON.stringify(income));
       } catch (error) {
-        // Handle error, e.g., log it or show a notification
         console.error('Error saving payees to AsyncStorage:', error);
       }
     };
@@ -153,16 +143,13 @@ const AppStateProvider = ({children}) => {
   }, [income]);
 
   useEffect(() => {
-    const filteredIncome = expenses.reduce((accumulator, expense) => {
-      // Assuming expense.date is a valid Date object
-      const expenseMonth = moment(expense.date).month();
-      const currentMonth = moment(selectedDate).month(); // Assuming selectedDate is a valid Date object
+    const filteredIncome = expenses.reduce((accumulator, item) => {
+      const expenseMonth = moment(item.date).month();
+      const currentMonth = moment(selectedDate).month();
 
-      // Check if the expense is from the current month
       if (expenseMonth === currentMonth) {
-        // Add the income if it's a credit transaction
-        if (expense.transactionType === 'Debit') {
-          const amount = parseFloat(expense.amount);
+        if (item.transactionType === 'Debit') {
+          const amount = parseFloat(item.amount);
           return isNaN(amount) ? accumulator : accumulator + amount;
         }
       }
@@ -172,16 +159,13 @@ const AppStateProvider = ({children}) => {
     setIncome(filteredIncome);
   }, [expenses, selectedDate]);
   useEffect(() => {
-    const filteredExpense = expenses.reduce((accumulator, expense) => {
-      // Assuming expense.date is a valid Date object
-      const expenseMonth = moment(expense.date).month();
-      const currentMonth = moment(selectedDate).month(); // Assuming selectedDate is a valid Date object
+    const filteredExpense = expenses.reduce((accumulator, item) => {
+      const expenseMonth = moment(item.date).month();
+      const currentMonth = moment(selectedDate).month();
 
-      // Check if the expense is from the current month
       if (expenseMonth === currentMonth) {
-        // Add the income if it's a credit transaction
-        if (expense.transactionType === 'Credit') {
-          const amount = parseFloat(expense.amount);
+        if (item.transactionType === 'Credit') {
+          const amount = parseFloat(item.amount);
           return isNaN(amount) ? accumulator : accumulator + amount;
         }
       }
@@ -197,7 +181,6 @@ const AppStateProvider = ({children}) => {
       try {
         await AsyncStorage.setItem('expense', JSON.stringify(expense));
       } catch (error) {
-        // Handle error, e.g., log it or show a notification
         console.error('Error saving payees to AsyncStorage:', error);
       }
     };
@@ -216,12 +199,11 @@ const AppStateProvider = ({children}) => {
     setExpense,
     user,
     setUser,
-    loading, // Add loading state to indicate whether user data is still being fetched
+    loading,
     selectedDate,
     setSelectedDate,
   };
 
-  // Render loading state or children based on whether user data has been fetched
   return (
     <CreateAppStateProviderContext.Provider value={providerValue}>
       {loading ? <Text>Loading...</Text> : children}

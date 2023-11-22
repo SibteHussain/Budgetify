@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {FormControl, Input, Modal, Select} from 'native-base';
+import React from 'react';
+import {Input, Modal} from 'native-base';
 import {useFormik} from 'formik';
-import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAppStateProvider} from '../../components/providers/AppStateProvider';
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import {NativeBaseProvider} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
-import MyStack from './src/navigatiors/StackNavigator';
 import AppStateProvider from './src/components/providers/AppStateProvider';
 import MyTabs from './src/navigatiors/TabNavigator';
 

@@ -10,6 +10,7 @@ import {
 } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/AntDesign';
 import MainViewWrapper from '../../components/MainViewWrapper';
+import NoDataAvailable from '../../components/NoDataAvailable';
 
 const HomeScreen = ({navigation}) => {
   const {navigate} = navigation;
@@ -47,9 +48,7 @@ const HomeScreen = ({navigation}) => {
           />
         </View>
       ) : (
-        <View style={styles.listContainer}>
-          <Text style={styles.text}>No Previous Expenses Found</Text>
-        </View>
+        <NoDataAvailable />
       )}
       <TouchableOpacity onPress={() => navigate('AddExpense')}>
         <Icon name="pluscircle" size={60} color="#6947cc" />

@@ -1,21 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import {useFormik} from 'formik';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import {FlatList, Input, Select, TextArea} from 'native-base';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import AddPayee from '../../components/Payee/AddPayee';
+import React from 'react';
+
+import {FlatList} from 'native-base';
+
 import {useAppStateProvider} from '../../components/providers/AppStateProvider';
 import GeneralHeader from '../../components/GeneralHeader';
 import MainViewWrapper from '../../components/MainViewWrapper';
-import moment from 'moment';
-import SubContainer from '../../components/SubContainer';
-import DatePicker from 'react-native-date-picker';
-import Icon from 'react-native-vector-icons/AntDesign';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+
 import BeneficiaryCard from '../../components/Beneficiaries/BeneficiaryCard';
+import NoDataAvailable from '../../components/NoDataAvailable';
 
 const BeneficiaryScreen = ({navigation}) => {
   const {navigate} = navigation;
@@ -41,53 +33,10 @@ const BeneficiaryScreen = ({navigation}) => {
           keyExtractor={item => item.id.toString()}
         />
       ) : (
-        <Text>Add Beneficaries to see them here</Text>
+        <NoDataAvailable />
       )}
     </MainViewWrapper>
   );
 };
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  text: {color: '#000', fontFamily: 'inter_medium', fontSize: 12},
-  buttonContainer: {
-    borderRadius: 40,
-    paddingVertical: 20,
-    alignItems: 'center',
-    backgroundColor: '#6947cc',
-    marginTop: '2%',
-  },
-  cardContainer: {
-    backgroundColor: '#fff', // Set background color for the card
-    borderRadius: 16, // Add border radius for rounded corners
-    padding: 16, // Add padding for spacing inside the card
-    marginVertical: 10, // Add margin for spacing between cards
-    shadowColor: '#000', // Add shadow for a lift effect
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-    width: widthPercentageToDP(90),
-    height: heightPercentageToDP(60),
-    justifyContent: 'space-between',
-  },
-  buttonText: {
-    color: '#fff',
-    fontFamily: 'inter_medium',
-    fontSize: 14,
-  },
-  payeeTextContainer: {flexDirection: 'row', marginTop: '4%'},
-  lowerFieldsContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    alignItems: 'space-between',
-  },
-});
 
 export default BeneficiaryScreen;
