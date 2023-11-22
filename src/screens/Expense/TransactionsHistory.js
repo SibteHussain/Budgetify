@@ -1,31 +1,81 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
-import {Text, View, StyleSheet} from 'react-native';
-import {Divider} from 'native-base';
+import {Text, View, StyleSheet, FlatList} from 'react-native';
 
 import GeneralHeader from '../../components/GeneralHeader';
 import MainViewWrapper from '../../components/MainViewWrapper';
-import SubContainer from '../../components/SubContainer';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import moment from 'moment';
-import ExpenseListItem from '../../components/Expense/ExpenseListItem';
 import TransactionsCard from '../../components/Expense/Transactions Card';
 import TransactionTabs from '../../components/Expense/TransactionTabs';
+import {useAppStateProvider} from '../../components/providers/AppStateProvider';
+import TransactionCard from '../../components/home/TransactionCard';
 
-const TransactionsHistory = () => {
+const TransactionsHistory = ({navigation}) => {
+  const {navigate} = navigation;
+  const {expenses, setExpenses} = useAppStateProvider();
+  const [filteredExpenses, setFilteredExpenses] = useState(expenses);
   const [selectedInterval, setSelectedInterval] = useState('daily');
-  console.log(selectedInterval);
-  const [data, setData] = useState(/* your list data */);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  useEffect(() => {
+    const filtered = expenses.filter(expense => {
+      const expenseDate = moment(expense.date).startOf('day');
+      const selectedDateFormatted = moment(selectedDate).startOf('day');
+      const currentDate = moment().startOf('day');
+
+      return (
+        expenseDate.isSameOrAfter(selectedDateFormatted) &&
+        expenseDate.isSameOrBefore(currentDate)
+      );
+    });
+
+    setFilteredExpenses(filtered);
+  }, [expenses, selectedDate]);
+
+  useEffect(() => {
+    if (selectedInterval === 'daily') {
+      setSelectedDate(moment().startOf('day'));
+    } else if (selectedInterval === 'weekly') {
+      setSelectedDate(moment().startOf('week'));
+    } else if (selectedInterval === 'monthly') {
+      setSelectedDate(moment().startOf('month'));
+    } else if (selectedInterval === 'yearly') {
+      setSelectedDate(moment().startOf('year'));
+    }
+  }, [selectedInterval]);
+
+  const renderItem = ({item}) => {
+    console.log(item);
+    return (
+      <TransactionCard
+        id={item.id}
+        name={item.name}
+        key={item.id}
+        date={item.date}
+        amount={item.amount}
+        transactionType={item.transactionType}
+        reason={item.reason}
+        note={item.note}
+        navigate={navigate}
+      />
+    );
+  };
   return (
     <MainViewWrapper statusBgColor={'#6947cc'}>
       <GeneralHeader bgColor={'#6947cc'} title={'HISTORY'} />
       <View style={styles.topContainer}>
-        <TransactionsCard></TransactionsCard>
+        <TransactionsCard />
         <TransactionTabs
           selectedInterval={selectedInterval}
           onSelectTab={setSelectedInterval}
         />
       </View>
+      <FlatList
+        data={filteredExpenses}
+        renderItem={renderItem}
+        keyExtractor={item => item.id.toString()}
+      />
     </MainViewWrapper>
   );
 };
