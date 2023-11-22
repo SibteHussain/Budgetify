@@ -169,10 +169,8 @@ const AppStateProvider = ({children}) => {
 
       return accumulator;
     }, 0);
-    console.log('filteredIncome:', filteredIncome);
     setIncome(filteredIncome);
   }, [expenses, selectedDate]);
-  console.log('income: ', income);
   useEffect(() => {
     const filteredExpense = expenses.reduce((accumulator, expense) => {
       // Assuming expense.date is a valid Date object

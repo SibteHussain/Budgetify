@@ -19,11 +19,12 @@ const GeneralHeader = ({title, bgColor, navigate}) => {
         ...styles.mainContainer,
         backgroundColor: bgColor ? bgColor : '#ffff',
       }}>
-      <TouchableOpacity onPress={() => goBack()} style={styles.backBtn}>
-        <Icon name="left" size={15} color="#fff" />
-      </TouchableOpacity>
-      <View style={styles.titleText}>
+      <View style={styles.subContainer}>
+        <TouchableOpacity onPress={() => goBack()}>
+          <Icon name="left" size={15} color="#fff" />
+        </TouchableOpacity>
         <Text style={styles.text}>{title}</Text>
+        <Text style={styles.text}>.</Text>
       </View>
     </View>
   );
@@ -36,22 +37,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 50,
   },
-  hamburgerContainer: {alignItems: 'center'},
 
   mainContainer: {
     alignItems: 'center',
     flexDirection: 'row',
     height: heightPercentageToDP(8),
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     width: widthPercentageToDP(100),
-  },
-  titleText: {
-    marginLeft: widthPercentageToDP(18),
   },
   text: {
     fontFamily: 'inter_bold',
     fontSize: 20,
     color: '#fff',
+  },
+  subContainer: {
+    width: '95%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    height: heightPercentageToDP(8),
   },
 });
 
