@@ -2,6 +2,8 @@ import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import moment from 'moment';
+import Icon from 'react-native-vector-icons/Feather';
+import {useAppStateProvider} from '../providers/AppStateProvider';
 
 const TransactionCard = ({
   name,
@@ -10,8 +12,14 @@ const TransactionCard = ({
   reason,
   transactionType,
   note,
+  id,
   navigate,
 }) => {
+  const {expenses, setExpenses} = useAppStateProvider();
+  const handleDelete = () => {
+    const filtered = expenses.filter(expense => expense.id !== id);
+    setExpenses(filtered);
+  };
   return (
     <TouchableOpacity
       onPress={() =>
@@ -40,6 +48,9 @@ const TransactionCard = ({
           }}>
           {`$ ${amount}`}
         </Text>
+        <TouchableOpacity onPress={handleDelete}>
+          <Icon name="trash-2" size={25} color="#000" />
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );

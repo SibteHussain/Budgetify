@@ -58,6 +58,7 @@ const HomeScreen = ({navigation}) => {
   }, [filteredExpenses, selectedDate, setIncome, setExpense]);
   const renderItem = ({item}) => (
     <TransactionCard
+      id={item.id}
       name={item.name}
       key={item.id}
       date={item.date}

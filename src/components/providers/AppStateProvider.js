@@ -139,6 +139,32 @@ const AppStateProvider = ({children}) => {
     saveExpensesToStorage();
   }, [expenses]);
 
+  useEffect(() => {
+    const saveIncomeToStorage = async () => {
+      try {
+        await AsyncStorage.setItem('income', JSON.stringify(income));
+      } catch (error) {
+        // Handle error, e.g., log it or show a notification
+        console.error('Error saving payees to AsyncStorage:', error);
+      }
+    };
+
+    saveIncomeToStorage();
+  }, [income]);
+
+  useEffect(() => {
+    const saveIExpenseToStorage = async () => {
+      try {
+        await AsyncStorage.setItem('expense', JSON.stringify(expense));
+      } catch (error) {
+        // Handle error, e.g., log it or show a notification
+        console.error('Error saving payees to AsyncStorage:', error);
+      }
+    };
+
+    saveIExpenseToStorage();
+  }, [expense]);
+
   const providerValue = {
     expenses,
     setExpenses,
