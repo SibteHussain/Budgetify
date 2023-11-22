@@ -24,7 +24,7 @@ const GeneralHeader = ({title, bgColor, navigate}) => {
           <Icon name="left" size={15} color="#fff" />
         </TouchableOpacity>
         <Text style={styles.text}>{title}</Text>
-        <Text style={styles.text}>.</Text>
+        <Text style={styles.dot}>.</Text>
       </View>
     </View>
   );
@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: heightPercentageToDP(8),
   },
+  dot: {color: '#6947cc'},
 });
 
 export default GeneralHeader;
