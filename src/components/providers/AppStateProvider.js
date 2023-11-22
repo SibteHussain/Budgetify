@@ -153,6 +153,48 @@ const AppStateProvider = ({children}) => {
   }, [income]);
 
   useEffect(() => {
+    const filteredIncome = expenses.reduce((accumulator, expense) => {
+      // Assuming expense.date is a valid Date object
+      const expenseMonth = moment(expense.date).month();
+      const currentMonth = moment(selectedDate).month(); // Assuming selectedDate is a valid Date object
+
+      // Check if the expense is from the current month
+      if (expenseMonth === currentMonth) {
+        // Add the income if it's a credit transaction
+        if (expense.transactionType === 'Debit') {
+          const amount = parseFloat(expense.amount);
+          return isNaN(amount) ? accumulator : accumulator + amount;
+        }
+      }
+
+      return accumulator;
+    }, 0);
+
+    setIncome(filteredIncome);
+  }, [expenses, selectedDate]);
+
+  useEffect(() => {
+    const filteredExpense = expenses.reduce((accumulator, expense) => {
+      // Assuming expense.date is a valid Date object
+      const expenseMonth = moment(expense.date).month();
+      const currentMonth = moment(selectedDate).month(); // Assuming selectedDate is a valid Date object
+
+      // Check if the expense is from the current month
+      if (expenseMonth === currentMonth) {
+        // Add the income if it's a credit transaction
+        if (expense.transactionType === 'Credit') {
+          const amount = parseFloat(expense.amount);
+          return isNaN(amount) ? accumulator : accumulator + amount;
+        }
+      }
+
+      return accumulator;
+    }, 0);
+
+    setIncome(filteredExpense);
+  }, [expenses, selectedDate]);
+
+  useEffect(() => {
     const saveIExpenseToStorage = async () => {
       try {
         await AsyncStorage.setItem('expense', JSON.stringify(expense));

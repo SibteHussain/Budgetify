@@ -22,15 +22,7 @@ const generateRandomId = () => {
 };
 
 const AddExpenseScreen = () => {
-  const {
-    expenses,
-    setExpenses,
-    payees,
-    expense,
-    setExpense,
-    income,
-    setIncome,
-  } = useAppStateProvider();
+  const {expenses, setExpenses, payees} = useAppStateProvider();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -48,28 +40,8 @@ const AddExpenseScreen = () => {
     onSubmit: async values => {
       try {
         // Update income and expense based on transactionType
-        let updatedIncome = income;
-        let updatedExpense = expense;
-
-        if (values.transactionType === 'Debit') {
-          updatedIncome += parseFloat(formik.values.amount);
-          setIncome(updatedIncome);
-        } else if (values.transactionType === 'Credit') {
-          updatedExpense += parseFloat(formik.values.amount);
-          setExpense(updatedExpense);
-        }
-
-        await AsyncStorage.setItem('income', JSON.stringify(updatedIncome));
-        await AsyncStorage.setItem('expense', JSON.stringify(updatedExpense));
-
-        // Retrieve existing expenses from AsyncStorage
-
-        // Add the new expense to the existing expenses array
         const newExpenses = [values, ...expenses];
         setExpenses(newExpenses);
-
-        // Save the updated expenses array back to AsyncStorage
-        await AsyncStorage.setItem('expenses', JSON.stringify(newExpenses));
       } catch (error) {
         console.log(error);
       }
