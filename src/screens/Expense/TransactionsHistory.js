@@ -140,8 +140,8 @@ const TransactionsHistory = ({navigation}) => {
           />
         </View>
       ) : (
-        <View style={styles.listContainer}>
-          <Text>No expenses found</Text>
+        <View style={styles.expenseContainer}>
+          <Text style={styles.expenseText}>No Data Found</Text>
         </View>
       )}
     </MainViewWrapper>
@@ -167,6 +167,11 @@ const styles = StyleSheet.create({
     paddingVertical: '2%',
     height: heightPercentageToDP(52),
   },
+  expenseContainer: {
+    justifyContent: 'center',
+    height: heightPercentageToDP(52),
+  },
+  expenseText: {color: '#000', fontFamily: 'inter_semibold', fontSize: 40},
 });
 
 export default TransactionsHistory;

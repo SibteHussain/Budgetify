@@ -51,7 +51,7 @@ const AddPayee = ({showModal, setShowModal}) => {
     <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
       <Modal.Content maxWidth="400px">
         <Modal.CloseButton />
-        <Modal.Header>Add Payee</Modal.Header>
+        <Modal.Header>Add Beneficiary</Modal.Header>
         <Modal.Body>
           <Input
             placeholder="Name"
@@ -83,11 +83,13 @@ const AddPayee = ({showModal, setShowModal}) => {
           </Select>
         </Modal.Body>
         <Modal.Footer>
-          <TouchableOpacity onPress={formik.handleSubmit}>
-            <View style={styles.buttonContainer}>
-              <Text style={styles.buttonText}>Add</Text>
-            </View>
-          </TouchableOpacity>
+          <View style={styles.footerContainer}>
+            <TouchableOpacity onPress={formik.handleSubmit}>
+              <View style={styles.buttonContainer}>
+                <Text style={styles.buttonText}>Add</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </Modal.Footer>
       </Modal.Content>
     </Modal>
@@ -103,10 +105,12 @@ const styles = StyleSheet.create({
   buttonContainer: {
     borderRadius: 40,
     paddingVertical: 20,
-    paddingHorizontal: 90,
-    backgroundColor: '#3E7C78',
+    alignItems: 'center',
+    backgroundColor: '#6947cc',
     marginTop: '2%',
+    width: '100%',
   },
+  footerContainer: {width: '100%'},
 });
 
 export default AddPayee;
