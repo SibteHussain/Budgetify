@@ -6,7 +6,7 @@ import GeneralHeader from '../../components/GeneralHeader';
 import MainViewWrapper from '../../components/MainViewWrapper';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import moment from 'moment';
-import TransactionsCard from '../../components/Expense/Transactions Card';
+import TransactionsCard from '../../components/Expense/TransactionsCard';
 import TransactionTabs from '../../components/Expense/TransactionTabs';
 import {useAppStateProvider} from '../../components/providers/AppStateProvider';
 import TransactionCard from '../../components/home/TransactionCard';
