@@ -128,11 +128,15 @@ const TransactionsHistory = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      <FlatList
-        data={filteredExpenses}
-        renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
-      />
+      {filteredExpenses.length > 0 ? (
+        <FlatList
+          data={filteredExpenses}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+        />
+      ) : (
+        <Text>No expenses found</Text>
+      )}
     </MainViewWrapper>
   );
 };

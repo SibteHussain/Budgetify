@@ -49,7 +49,7 @@ const TransactionCard = ({
           {`$ ${amount}`}
         </Text>
         <TouchableOpacity onPress={handleDelete}>
-          <Icon name="trash-2" size={25} color="#000" />
+          <Icon name="trash-2" size={25} color="red" />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
