@@ -33,13 +33,13 @@ const HomeScreen = ({navigation}) => {
       <View style={styles.topContainer}>
         <CreditCard />
         <View style={styles.transactionsContainer}>
-          <Text style={styles.text}>Transaction History</Text>
+          <Text style={styles.text}>Recent Transactions</Text>
         </View>
       </View>
       {expenses.length > 0 ? (
         <View style={styles.listContainer}>
           <FlatList
-            data={expenses.slice(0, 20)}
+            data={expenses.slice(0, 10)}
             renderItem={renderItem}
             keyExtractor={item => item.id.toString()}
             showsVerticalScrollIndicator={false}

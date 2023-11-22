@@ -29,14 +29,14 @@ const CreditCard = () => {
         <View style={styles.expenseContainer}>
           <View style={styles.incomeContainer}>
             <Icon name="arrowdown" size={15} color="#fff" />
-            <Text style={styles.textLight}>Income</Text>
+            <Text style={styles.textLight}>Monthly Income</Text>
           </View>
           <Text style={styles.text}>{`$${income}`}</Text>
         </View>
         <View style={styles.expenseContainer}>
           <View style={styles.incomeContainer}>
             <Icon name="arrowup" size={15} color="#fff" />
-            <Text style={styles.textLight}>Expenses</Text>
+            <Text style={styles.textLight}>Monthly Expenses</Text>
           </View>
           <Text style={styles.text}>{`$${expense}`}</Text>
         </View>
