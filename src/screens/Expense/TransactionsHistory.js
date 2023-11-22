@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {Text, View, StyleSheet} from 'react-native';
 import {Divider} from 'native-base';
@@ -10,13 +10,21 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 import moment from 'moment';
 import ExpenseListItem from '../../components/Expense/ExpenseListItem';
 import TransactionsCard from '../../components/Expense/Transactions Card';
+import TransactionTabs from '../../components/Expense/TransactionTabs';
 
 const TransactionsHistory = () => {
+  const [selectedInterval, setSelectedInterval] = useState('daily');
+  console.log(selectedInterval);
+  const [data, setData] = useState(/* your list data */);
   return (
     <MainViewWrapper statusBgColor={'#6947cc'}>
       <GeneralHeader bgColor={'#6947cc'} title={'HISTORY'} />
       <View style={styles.topContainer}>
         <TransactionsCard></TransactionsCard>
+        <TransactionTabs
+          selectedInterval={selectedInterval}
+          onSelectTab={setSelectedInterval}
+        />
       </View>
     </MainViewWrapper>
   );

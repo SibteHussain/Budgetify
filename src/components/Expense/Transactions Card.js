@@ -8,6 +8,7 @@ import {useAppStateProvider} from '../providers/AppStateProvider';
 
 const TransactionsCard = () => {
   const {income, expense, user} = useAppStateProvider();
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.balanceContainer}>
