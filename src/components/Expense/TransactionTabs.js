@@ -26,7 +26,7 @@ const TransactionTabs = ({selectedInterval, onSelectTab}) => {
           Weekly
         </Text>
       </TouchableOpacity>
-      <Divider orientation="vertical" marginX={'3%'} />
+      <Divider orientation="vertical" marginX={'3%'} color={'#fff'} />
       <TouchableOpacity onPress={() => onSelectTab('monthly')}>
         <Text
           style={{
@@ -54,11 +54,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '60%',
+    width: widthPercentageToDP(60),
     backgroundColor: '#431cb8',
     borderRadius: 10,
     padding: 15,
-    marginBottom: '3%',
   },
   nameText: {color: '#000', fontFamily: 'inter_medium', fontSize: 13},
 });

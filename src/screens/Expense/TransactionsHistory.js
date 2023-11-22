@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-import {Text, View, StyleSheet, FlatList} from 'react-native';
+import {Text, View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 
 import GeneralHeader from '../../components/GeneralHeader';
 import MainViewWrapper from '../../components/MainViewWrapper';
@@ -10,6 +10,7 @@ import TransactionsCard from '../../components/Expense/TransactionsCard';
 import TransactionTabs from '../../components/Expense/TransactionTabs';
 import {useAppStateProvider} from '../../components/providers/AppStateProvider';
 import TransactionCard from '../../components/home/TransactionCard';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const TransactionsHistory = ({navigation}) => {
   const {navigate} = navigation;
@@ -81,10 +82,15 @@ const TransactionsHistory = ({navigation}) => {
           filteredIncome={filteredIncome}
           filteredExpense={filteredExpense}
         />
-        <TransactionTabs
-          selectedInterval={selectedInterval}
-          onSelectTab={setSelectedInterval}
-        />
+        <View style={styles.dateContainer}>
+          <TransactionTabs
+            selectedInterval={selectedInterval}
+            onSelectTab={setSelectedInterval}
+          />
+          <TouchableOpacity onPress={() => setOpen(true)}>
+            <Icon name="calendar" size={40} color="#fff" />
+          </TouchableOpacity>
+        </View>
       </View>
       <FlatList
         data={filteredExpenses}
@@ -101,6 +107,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#6947cc',
     width: widthPercentageToDP(100),
     alignItems: 'center',
+    paddingBottom: '3%',
+  },
+  dateContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'space-around',
+    width: widthPercentageToDP(90),
   },
 });
 
