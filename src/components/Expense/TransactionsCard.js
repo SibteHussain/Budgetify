@@ -1,9 +1,8 @@
 import {Text, View} from 'native-base';
-import React, {useState} from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {StyleSheet} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/AntDesign';
-import IconEntypo from 'react-native-vector-icons/Entypo';
 import {useAppStateProvider} from '../providers/AppStateProvider';
 
 const TransactionsCard = ({filteredIncome, filteredExpense}) => {
@@ -14,21 +13,20 @@ const TransactionsCard = ({filteredIncome, filteredExpense}) => {
       <View style={styles.balanceContainer}>
         <Text style={styles.text}>{user[0].name}</Text>
       </View>
-      <Text style={styles.text}>Expense Tracker</Text>
       <View style={styles.bottomContainer}>
         <View style={styles.expenseContainer}>
           <View style={styles.incomeContainer}>
-            <Icon name="arrowdown" size={15} color="#fff" />
-            <Text style={styles.textLight}>Income</Text>
+            <Icon name="arrowdown" size={17} color="#fff" />
+            <Text style={styles.text}>Total Debit</Text>
           </View>
-          <Text style={styles.text}>{filteredIncome}</Text>
+          <Text style={styles.textLight}>{`$${filteredIncome}`}</Text>
         </View>
         <View style={styles.expenseContainer}>
           <View style={styles.incomeContainer}>
-            <Icon name="arrowup" size={15} color="#fff" />
-            <Text style={styles.textLight}>Expenses</Text>
+            <Icon name="arrowup" size={17} color="#fff" />
+            <Text style={styles.text}>Total Credit</Text>
           </View>
-          <Text style={styles.text}>{filteredExpense}</Text>
+          <Text style={styles.textLight}>{`$${filteredExpense}`}</Text>
         </View>
       </View>
     </View>
@@ -44,11 +42,11 @@ const styles = StyleSheet.create({
     width: widthPercentageToDP(90),
     marginVertical: '4%',
   },
-  text: {color: '#fff', fontFamily: 'inter_regular', fontSize: 15},
+  text: {color: '#fff', fontFamily: 'inter_regular', fontSize: 18},
   balanceContainer: {
     flexDirection: 'row',
     alignItems: 'space-between',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
   icon: {marginTop: '5%', marginLeft: '1%'},
   bottomContainer: {
@@ -57,8 +55,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: '8%',
   },
-  textLight: {color: '#fff', fontFamily: 'inter_light', fontSize: 12},
-  incomeContainer: {flexDirection: 'row'},
-  expenseContainer: {flexDirection: 'column'},
+  textLight: {
+    color: '#fff',
+    fontFamily: 'inter_light',
+    fontSize: 15,
+    marginTop: '2%',
+  },
+  incomeContainer: {flexDirection: 'row', alignItems: 'center'},
+  expenseContainer: {flexDirection: 'column', alignItems: 'center'},
 });
 export default TransactionsCard;

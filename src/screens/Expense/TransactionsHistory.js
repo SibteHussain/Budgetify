@@ -11,15 +11,20 @@ import TransactionTabs from '../../components/Expense/TransactionTabs';
 import {useAppStateProvider} from '../../components/providers/AppStateProvider';
 import TransactionCard from '../../components/home/TransactionCard';
 import Icon from 'react-native-vector-icons/AntDesign';
+import DatePicker from 'react-native-date-picker';
 
 const TransactionsHistory = ({navigation}) => {
   const {navigate} = navigation;
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const {expenses} = useAppStateProvider();
   const [filteredExpenses, setFilteredExpenses] = useState(expenses);
   const [selectedInterval, setSelectedInterval] = useState('monthly');
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const [filteredIncome, setFilteredIncome] = useState(0);
   const [filteredExpense, setFilteredExpense] = useState(0);
+  const [calendarDate, setCalendarDate] = useState(
+    moment(selectedDate).toDate(),
+  );
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const filtered = expenses.filter(expense => {
@@ -58,6 +63,24 @@ const TransactionsHistory = ({navigation}) => {
       setSelectedDate(moment().startOf('year'));
     }
   }, [selectedInterval]);
+  useEffect(() => {
+    const filtered = expenses.filter(expense =>
+      moment(expense.date).isSame(moment(calendarDate), 'day'),
+    );
+    const income = filtered.reduce((accumulator, expense) => {
+      const amount =
+        expense.transactionType === 'Debit' && parseFloat(expense.amount);
+      return isNaN(amount) ? accumulator : accumulator + amount;
+    }, 0);
+    setFilteredIncome(income);
+    const credit = filtered.reduce((accumulator, expense) => {
+      const amount =
+        expense.transactionType === 'Credit' && parseFloat(expense.amount);
+      return isNaN(amount) ? accumulator : accumulator + amount;
+    }, 0);
+    setFilteredExpense(credit);
+    setFilteredExpenses(filtered);
+  }, [calendarDate, expenses]);
 
   const renderItem = ({item}) => {
     return (
@@ -76,6 +99,19 @@ const TransactionsHistory = ({navigation}) => {
   };
   return (
     <MainViewWrapper statusBgColor={'#6947cc'}>
+      <DatePicker
+        modal
+        open={open}
+        date={calendarDate}
+        onConfirm={input => {
+          setOpen(false);
+          setCalendarDate(moment(input).toDate());
+          setSelectedInterval(null);
+        }}
+        onCancel={() => {
+          setOpen(false);
+        }}
+      />
       <GeneralHeader bgColor={'#6947cc'} title={'HISTORY'} />
       <View style={styles.topContainer}>
         <TransactionsCard

@@ -31,14 +31,14 @@ const CreditCard = () => {
             <Icon name="arrowdown" size={15} color="#fff" />
             <Text style={styles.textLight}>Income</Text>
           </View>
-          <Text style={styles.text}>{income}</Text>
+          <Text style={styles.text}>{`$${income}`}</Text>
         </View>
         <View style={styles.expenseContainer}>
           <View style={styles.incomeContainer}>
             <Icon name="arrowup" size={15} color="#fff" />
             <Text style={styles.textLight}>Expenses</Text>
           </View>
-          <Text style={styles.text}>{expense}</Text>
+          <Text style={styles.text}>{`$${expense}`}</Text>
         </View>
       </View>
     </View>
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     marginTop: '8%',
   },
   textLight: {color: '#fff', fontFamily: 'inter_light', fontSize: 12},
-  incomeContainer: {flexDirection: 'row'},
+  incomeContainer: {flexDirection: 'row', alignItems: 'center'},
   expenseContainer: {flexDirection: 'column'},
 });
 export default CreditCard;
