@@ -16,9 +16,9 @@ const BeneficiaryScreen = ({navigation}) => {
     return (
       <BeneficiaryCard
         name={item.item.name}
-        email={item.item.email}
         relation={item.item.relation}
         id={item.item.id}
+        date={item.item.date}
         navigate={navigate}
       />
     );

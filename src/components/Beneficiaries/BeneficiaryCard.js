@@ -3,8 +3,9 @@ import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Feather';
 import {useAppStateProvider} from '../providers/AppStateProvider';
+import moment from 'moment';
 
-const BeneficiaryCard = ({name, email, relation, navigate, id}) => {
+const BeneficiaryCard = ({name, relation, navigate, id, date}) => {
   const {payees, setPayees} = useAppStateProvider();
   const handleDelete = async () => {
     const filtered = payees.filter(payee => payee.id !== id);
@@ -22,7 +23,9 @@ const BeneficiaryCard = ({name, email, relation, navigate, id}) => {
       <View style={styles.cardContainer}>
         <View style={styles.leftContainer}>
           <Text style={styles.text}>{name}</Text>
-          <Text style={styles.emailText}>{email}</Text>
+          <Text style={styles.emailText}>
+            {moment(date).format('MMM Do, YYYY')}
+          </Text>
         </View>
         <Text style={styles.text}>{relation}</Text>
         <TouchableOpacity onPress={handleDelete}>

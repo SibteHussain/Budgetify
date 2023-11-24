@@ -10,3 +10,10 @@ export const ExpenseValidationSchema = yup.object().shape({
     .string()
     .required('Select a Valid Transaction Type to continue.'),
 });
+
+export const PayeeValidationSchema = yup.object().shape({
+  name: yup.string().required('You must enter a name.'),
+  relation: yup
+    .string()
+    .required('Please select a relation for this beneficiary'),
+});
