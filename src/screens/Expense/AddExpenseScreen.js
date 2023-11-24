@@ -24,7 +24,6 @@ const generateRandomId = () => {
 };
 
 const AddExpenseScreen = ({navigation}) => {
-  const {goBack} = useNavigation;
   const {expenses, setExpenses, payees} = useAppStateProvider();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [open, setOpen] = useState(false);
@@ -55,7 +54,6 @@ const AddExpenseScreen = ({navigation}) => {
 
         // Show each error message in a separate toast
         errorMessages.forEach(errorMessage => {
-          console.log(errorMessage);
           showToast('error', errorMessage, 'bottom'); // Assuming 'error' is the type for error toasts
         });
       }
