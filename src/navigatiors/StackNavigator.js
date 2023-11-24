@@ -1,8 +1,6 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import OnboardingScreen from '../screens/onboarding/OnboardingScreen';
 import HomeScreen from '../screens/home/HomeScreen';
-import RegisterScreen from '../screens/onboarding/RegisterScreen';
 import AddExpenseScreen from '../screens/Expense/AddExpenseScreen';
 import ExpenseDetail from '../screens/Expense/ExpenseDetail';
 import BeneficaryTransactions from '../screens/Beneficiaries/BeneficiaryTransactions';
@@ -22,9 +20,7 @@ const MyStack = () => {
           fontWeight: 'bold',
         },
       }}>
-      <Stack.Screen name="OnBoarding" component={OnboardingScreen} />
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
       <Stack.Screen name="ExpenseDetail" component={ExpenseDetail} />
       <Stack.Screen

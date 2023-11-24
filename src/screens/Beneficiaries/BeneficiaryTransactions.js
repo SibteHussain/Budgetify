@@ -6,6 +6,7 @@ import {useAppStateProvider} from '../../components/providers/AppStateProvider';
 import TransactionCard from '../../components/home/TransactionCard';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {View} from 'native-base';
+import NoDataAvailable from '../../components/NoDataAvailable';
 
 const BeneficaryTransactions = ({route}) => {
   const {id, navigate} = route.params;
@@ -40,11 +41,15 @@ const BeneficaryTransactions = ({route}) => {
           <Text style={styles.text}>Transactions by this user</Text>
         </View>
       </View>
-      <FlatList
-        data={filteredExpenses}
-        renderItem={renderItem}
-        key={item => item.id.toString()}
-      />
+      {filteredExpenses.length > 0 ? (
+        <FlatList
+          data={filteredExpenses}
+          renderItem={renderItem}
+          key={item => item.id.toString()}
+        />
+      ) : (
+        <NoDataAvailable />
+      )}
     </MainViewWrapper>
   );
 };
