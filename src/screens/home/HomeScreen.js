@@ -50,7 +50,8 @@ const HomeScreen = ({navigation}) => {
       ) : (
         <NoDataAvailable />
       )}
-      <TouchableOpacity onPress={() => navigate('AddExpense')}>
+      <TouchableOpacity
+        onPress={() => navigate('AddExpense', {navigation: navigation})}>
         <Icon name="pluscircle" size={60} color="#6947cc" />
       </TouchableOpacity>
     </MainViewWrapper>

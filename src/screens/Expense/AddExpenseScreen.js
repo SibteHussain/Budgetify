@@ -8,8 +8,11 @@ import GeneralHeader from '../../components/GeneralHeader';
 import MainViewWrapper from '../../components/MainViewWrapper';
 import moment from 'moment';
 import SubContainer from '../../components/SubContainer';
+import {useNavigation} from '@react-navigation/native';
 import DatePicker from 'react-native-date-picker';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {ExpenseValidationSchema} from '../../utils/ValidationSchemas';
+import useToastHook from '../../utils/useToastHook';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
@@ -20,11 +23,13 @@ const generateRandomId = () => {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
 };
 
-const AddExpenseScreen = () => {
+const AddExpenseScreen = ({navigation}) => {
+  const {goBack} = useNavigation;
   const {expenses, setExpenses, payees} = useAppStateProvider();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const {showToast} = useToastHook();
   const formik = useFormik({
     initialValues: {
       id: generateRandomId(),
@@ -38,11 +43,21 @@ const AddExpenseScreen = () => {
     },
     onSubmit: async values => {
       try {
-        // Update income and expense based on transactionType
+        await ExpenseValidationSchema.validate(values, {abortEarly: false});
+        // Validation succeeded
         const newExpenses = [values, ...expenses];
         setExpenses(newExpenses);
+        navigation.goBack();
+        showToast('success', 'Transaction added successfully', 'bottom');
       } catch (error) {
-        console.log(error);
+        // Validation failed
+        const errorMessages = error.errors;
+
+        // Show each error message in a separate toast
+        errorMessages.forEach(errorMessage => {
+          console.log(errorMessage);
+          showToast('error', errorMessage, 'bottom'); // Assuming 'error' is the type for error toasts
+        });
       }
     },
   });
@@ -153,7 +168,10 @@ const AddExpenseScreen = () => {
               onChangeText={formik.handleChange('amount')}
               backgroundColor={'#fff'}
               mr={'1%'}
+              onBlur={formik.handleBlur('amount')}
+              error={formik.errors.amount}
             />
+
             <Select
               selectedValue={formik.values.reason}
               minWidth={200}
@@ -171,13 +189,6 @@ const AddExpenseScreen = () => {
               <Select.Item label="Investment" value="Investment" />
               <Select.Item label="Goods" value="Goods" />
             </Select>
-
-            {/* <Input
-              placeholder="Reason"
-              maxWidth={100}
-              value={formik.values.reason}
-              onChangeText={formik.handleChange('reason')}
-            /> */}
           </View>
           <TextArea
             placeholder={'Note'}
