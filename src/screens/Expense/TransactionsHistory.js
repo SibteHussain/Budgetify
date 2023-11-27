@@ -16,6 +16,7 @@ import TransactionCard from '../../components/home/TransactionCard';
 import Icon from 'react-native-vector-icons/AntDesign';
 import DatePicker from 'react-native-date-picker';
 import NoDataAvailable from '../../components/NoDataAvailable';
+import {Text} from 'native-base';
 
 const TransactionsHistory = ({navigation}) => {
   const {navigate} = navigation;
@@ -86,19 +87,32 @@ const TransactionsHistory = ({navigation}) => {
     setFilteredExpenses(filtered);
   }, [calendarDate, expenses]);
 
-  const renderItem = ({item}) => {
+  const renderItem = ({item, index}) => {
+    const currentMonth = moment(item.date).format('MMMM YYYY');
+    const previousMonth =
+      index > 0
+        ? moment(filteredExpenses[index - 1].date).format('MMMM YYYY')
+        : '';
+
     return (
-      <TransactionCard
-        id={item.id}
-        name={item.name}
-        key={item.id}
-        date={item.date}
-        amount={item.amount}
-        transactionType={item.transactionType}
-        reason={item.reason}
-        note={item.note}
-        navigate={navigate}
-      />
+      <>
+        {currentMonth !== previousMonth && (
+          <View style={styles.monthHeading}>
+            <Text style={styles.monthHeadingText}>{currentMonth}</Text>
+          </View>
+        )}
+        <TransactionCard
+          id={item.id}
+          name={item.name}
+          key={item.id}
+          date={item.date}
+          amount={item.amount}
+          transactionType={item.transactionType}
+          reason={item.reason}
+          note={item.note}
+          navigate={navigate}
+        />
+      </>
     );
   };
   return (
@@ -171,6 +185,16 @@ const styles = StyleSheet.create({
     height: heightPercentageToDP(52),
   },
   expenseText: {color: '#000', fontFamily: 'inter_semibold', fontSize: 40},
+  monthHeading: {
+    backgroundColor: '#6947cc',
+    padding: 10,
+    alignItems: 'center',
+  },
+  monthHeadingText: {
+    color: '#fff',
+    fontFamily: 'inter_semibold',
+    fontSize: 20,
+  },
 });
 
 export default TransactionsHistory;
