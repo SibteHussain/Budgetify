@@ -56,7 +56,6 @@ const TransactionsHistory = ({navigation}) => {
     setFilteredExpense(credit);
     setFilteredExpenses(filtered);
   }, [expenses, selectedDate]);
-
   useEffect(() => {
     if (selectedInterval === 'daily') {
       setSelectedDate(moment().startOf('day'));
@@ -96,11 +95,13 @@ const TransactionsHistory = ({navigation}) => {
 
     return (
       <>
-        {currentMonth !== previousMonth && (
-          <View style={styles.monthHeading}>
-            <Text style={styles.monthHeadingText}>{currentMonth}</Text>
-          </View>
-        )}
+        {currentMonth !== previousMonth &&
+          (selectedInterval === 'monthly' || selectedInterval === 'yearly') && (
+            <View style={styles.monthHeading}>
+              <Text style={styles.monthHeadingText}>{currentMonth}</Text>
+            </View>
+          )}
+
         <TransactionCard
           id={item.id}
           name={item.name}
