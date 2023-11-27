@@ -20,26 +20,24 @@ import {Text} from 'native-base';
 
 const TransactionsHistory = ({navigation}) => {
   const {navigate} = navigation;
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const {expenses} = useAppStateProvider();
   const [filteredExpenses, setFilteredExpenses] = useState(expenses);
-  const [selectedInterval, setSelectedInterval] = useState('monthly');
+  const [selectedInterval, setSelectedInterval] = useState('month');
   const [filteredIncome, setFilteredIncome] = useState(0);
   const [filteredExpense, setFilteredExpense] = useState(0);
-  const [calendarDate, setCalendarDate] = useState(
-    moment(selectedDate).toDate(),
-  );
+  const [calendarDate, setCalendarDate] = useState(new Date());
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const filtered = expenses.filter(expense => {
       const expenseDate = moment(expense.date).startOf('day');
-      const selectedDateFormatted = moment(selectedDate).startOf('day');
-      const currentDate = moment().startOf('day');
+      const selectedDateFormatted =
+        moment(calendarDate).startOf(selectedInterval);
+      const endDate = moment(calendarDate).endOf(selectedInterval);
 
       return (
         expenseDate.isSameOrAfter(selectedDateFormatted) &&
-        expenseDate.isSameOrBefore(currentDate)
+        expenseDate.isSameOrBefore(endDate)
       );
     });
     const income = filtered.reduce((accumulator, expense) => {
@@ -55,36 +53,7 @@ const TransactionsHistory = ({navigation}) => {
     }, 0);
     setFilteredExpense(credit);
     setFilteredExpenses(filtered);
-  }, [expenses, selectedDate]);
-  useEffect(() => {
-    if (selectedInterval === 'daily') {
-      setSelectedDate(moment().startOf('day'));
-    } else if (selectedInterval === 'weekly') {
-      setSelectedDate(moment().startOf('week'));
-    } else if (selectedInterval === 'monthly') {
-      setSelectedDate(moment().startOf('month'));
-    } else if (selectedInterval === 'yearly') {
-      setSelectedDate(moment().startOf('year'));
-    }
-  }, [selectedInterval]);
-  useEffect(() => {
-    const filtered = expenses.filter(expense =>
-      moment(expense.date).isSame(moment(calendarDate), 'day'),
-    );
-    const income = filtered.reduce((accumulator, expense) => {
-      const amount =
-        expense.transactionType === 'Debit' && parseFloat(expense.amount);
-      return isNaN(amount) ? accumulator : accumulator + amount;
-    }, 0);
-    setFilteredIncome(income);
-    const credit = filtered.reduce((accumulator, expense) => {
-      const amount =
-        expense.transactionType === 'Credit' && parseFloat(expense.amount);
-      return isNaN(amount) ? accumulator : accumulator + amount;
-    }, 0);
-    setFilteredExpense(credit);
-    setFilteredExpenses(filtered);
-  }, [calendarDate, expenses]);
+  }, [expenses, selectedInterval, calendarDate]);
 
   const renderItem = ({item, index}) => {
     const currentMonth = moment(item.date).format('MMMM YYYY');
@@ -95,12 +64,11 @@ const TransactionsHistory = ({navigation}) => {
 
     return (
       <>
-        {currentMonth !== previousMonth &&
-          (selectedInterval === 'monthly' || selectedInterval === 'yearly') && (
-            <View style={styles.monthHeading}>
-              <Text style={styles.monthHeadingText}>{currentMonth}</Text>
-            </View>
-          )}
+        {currentMonth !== previousMonth && (
+          <View style={styles.monthHeading}>
+            <Text style={styles.monthHeadingText}>{currentMonth}</Text>
+          </View>
+        )}
 
         <TransactionCard
           id={item.id}
@@ -125,7 +93,6 @@ const TransactionsHistory = ({navigation}) => {
         onConfirm={input => {
           setOpen(false);
           setCalendarDate(moment(input).toDate());
-          setSelectedInterval(null);
         }}
         onCancel={() => {
           setOpen(false);

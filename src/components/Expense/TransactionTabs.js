@@ -7,41 +7,41 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 const TransactionTabs = ({selectedInterval, onSelectTab}) => {
   return (
     <View style={styles.mainContainer}>
-      <TouchableOpacity onPress={() => onSelectTab('daily')}>
+      <TouchableOpacity onPress={() => onSelectTab('day')}>
         <Text
           style={{
             ...styles.nameText,
-            color: selectedInterval === 'daily' ? '#000' : '#fff',
+            color: selectedInterval === 'day' ? '#000' : '#fff',
           }}>
           Daily
         </Text>
       </TouchableOpacity>
       <Divider orientation="vertical" marginX={'3%'} />
-      <TouchableOpacity onPress={() => onSelectTab('weekly')}>
+      <TouchableOpacity onPress={() => onSelectTab('week')}>
         <Text
           style={{
             ...styles.nameText,
-            color: selectedInterval === 'weekly' ? '#000' : '#fff',
+            color: selectedInterval === 'week' ? '#000' : '#fff',
           }}>
           Weekly
         </Text>
       </TouchableOpacity>
       <Divider orientation="vertical" marginX={'3%'} color={'#fff'} />
-      <TouchableOpacity onPress={() => onSelectTab('monthly')}>
+      <TouchableOpacity onPress={() => onSelectTab('month')}>
         <Text
           style={{
             ...styles.nameText,
-            color: selectedInterval === 'monthly' ? '#000' : '#fff',
+            color: selectedInterval === 'month' ? '#000' : '#fff',
           }}>
           Monthly
         </Text>
       </TouchableOpacity>
       <Divider orientation="vertical" marginX={'3%'} />
-      <TouchableOpacity onPress={() => onSelectTab('yearly')}>
+      <TouchableOpacity onPress={() => onSelectTab('year')}>
         <Text
           style={{
             ...styles.nameText,
-            color: selectedInterval === 'yearly' ? '#000' : '#fff',
+            color: selectedInterval === 'year' ? '#000' : '#fff',
           }}>
           Yearly
         </Text>
